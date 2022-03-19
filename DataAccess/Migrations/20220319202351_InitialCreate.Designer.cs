@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(VacationManagerDbContext))]
-    [Migration("20220319195119_InitialCreate")]
+    [Migration("20220319202351_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Models.Project", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
@@ -40,6 +41,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Models.Role", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -48,11 +50,34 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "CEO"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "Developer"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            Name = "Team Lead"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            Name = "Unassigned"
+                        });
                 });
 
             modelBuilder.Entity("Models.Team", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -76,6 +101,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Models.User", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
@@ -108,6 +134,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Models.Vacation", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicantId")

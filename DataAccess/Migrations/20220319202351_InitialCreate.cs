@@ -106,6 +106,17 @@ namespace DataAccess.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { "1", "CEO" },
+                    { "2", "Developer" },
+                    { "3", "Team Lead" },
+                    { "4", "Unassigned" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_ProjectId",
                 table: "Teams",
