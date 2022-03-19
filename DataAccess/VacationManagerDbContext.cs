@@ -12,5 +12,12 @@ namespace DataAccess
         public DbSet<Vacation> Vacations { get; set; }
 
         public VacationManagerDbContext(DbContextOptions<VacationManagerDbContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+               .HasOne(u => u.Team)
+               .WithMany(t => t.Developers);
+        }
     }
 }
