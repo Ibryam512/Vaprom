@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
-    public class Role : BaseEntity
+    public class Role
     {
+        [Key]
         public string Name { get; set; }
-        public List<User> Users { get; set; }
     }
 }

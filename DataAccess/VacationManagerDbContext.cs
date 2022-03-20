@@ -22,22 +22,18 @@ namespace DataAccess
             modelBuilder.Entity<Role>().HasData(
                new Role()
                {
-                   Id = "1",
                    Name = "CEO"
                },
                new Role()
                {
-                   Id = "2",
                    Name = "Developer"
                },
                new Role()
                {
-                   Id = "3",
                    Name = "Team Lead"
                },
                new Role()
                {
-                   Id = "4",
                    Name = "Unassigned"
                });
         }
