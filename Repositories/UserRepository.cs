@@ -1,10 +1,8 @@
 ﻿using DataAccess;
 using Models;
+using Repositories.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repositories
 {
@@ -14,7 +12,7 @@ namespace Repositories
 
         public UserRepository(VacationManagerDbContext context)
         {
-            this._context = context;
+            this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public IQueryable<User> GetUsers() => this._context.Users;
@@ -23,19 +21,19 @@ namespace Repositories
 
         public void AddUser(User user)
         {
-            this._context.Add(user);
+            this._context.Users.Add(user);
             this._context.SaveChanges();
         }
 
         public void EditUser(User user)
         {
-            this._context.Update(user);
+            this._context.Users.Update(user);
             this._context.SaveChanges();
         }
 
         public void DeleteUser(User user)
         {
-            this._context.Remove(user);
+            this._context.Users.Remove(user);
             this._context.SaveChanges();
         }
     }
