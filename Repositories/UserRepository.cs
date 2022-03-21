@@ -1,0 +1,40 @@
+﻿using DataAccess;
+using Models;
+using Repositories.Interfaces;
+using System;
+using System.Linq;
+
+namespace Repositories
+{
+    public class UserRepository : IUserRepository
+    {
+        private readonly VacationManagerDbContext _context;
+
+        public UserRepository(VacationManagerDbContext context)
+        {
+            this._context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        public IQueryable<User> GetUsers() => this._context.Users;
+
+        public User GetUser(string id) => this._context.Users.Find(id);
+
+        public void AddUser(User user)
+        {
+            this._context.Users.Add(user);
+            this._context.SaveChanges();
+        }
+
+        public void EditUser(User user)
+        {
+            this._context.Users.Update(user);
+            this._context.SaveChanges();
+        }
+
+        public void DeleteUser(User user)
+        {
+            this._context.Users.Remove(user);
+            this._context.SaveChanges();
+        }
+    }
+}
