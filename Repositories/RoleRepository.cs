@@ -15,7 +15,7 @@ namespace Repositories
             this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IQueryable<Role> GetRoles() => this._context.Roles;
+        public IQueryable<Role> GetRoles() => this._context.Roles.AsQueryable();
 
         public Role GetRole(string name) => this._context.Roles.Find(name);
 

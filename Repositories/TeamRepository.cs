@@ -15,7 +15,7 @@ namespace Repositories
             this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IQueryable<Team> GetTeams() => this._context.Teams;
+        public IQueryable<Team> GetTeams() => this._context.Teams.AsQueryable();
 
         public Team GetTeam(string id) => this._context.Teams.Find(id);
 
