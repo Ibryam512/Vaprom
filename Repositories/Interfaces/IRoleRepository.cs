@@ -8,7 +8,6 @@ namespace Repositories.Interfaces
         IQueryable<Role> GetRoles();
         Role GetRole(string name);
         void AddRole(Role role);
-        void EditRole(Role role);
         void DeleteRole(Role role);
     }
 }
