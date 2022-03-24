@@ -15,7 +15,7 @@ namespace Repositories
             this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IQueryable<Vacation> GetVacations() => this._context.Vacations;
+        public IQueryable<Vacation> GetVacations() => this._context.Vacations.AsQueryable();
 
         public Vacation GetVacation(string name) => this._context.Vacations.Find(name);
 
