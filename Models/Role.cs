@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace Models
+﻿namespace Models
 {
-    public class Role
+    public class Role : BaseEntity
     {
-        [Key]
         public string Name { get; set; }
     }
 }

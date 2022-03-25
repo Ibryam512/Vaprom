@@ -24,11 +24,12 @@ namespace DataAccess.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Name);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,17 +61,17 @@ namespace DataAccess.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TeamId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Roles_RoleName",
-                        column: x => x.RoleName,
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "Name",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Users_Teams_TeamId",
@@ -107,13 +108,13 @@ namespace DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Roles",
-                column: "Name",
-                values: new object[]
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
                 {
-                    "CEO",
-                    "Developer",
-                    "Team Lead",
-                    "Unassigned"
+                    { "1", "CEO" },
+                    { "2", "Developer" },
+                    { "3", "Team Lead" },
+                    { "4", "Unassigned" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -127,9 +128,9 @@ namespace DataAccess.Migrations
                 column: "TeamLeaderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleName",
+                name: "IX_Users_RoleId",
                 table: "Users",
-                column: "RoleName");
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_TeamId",
