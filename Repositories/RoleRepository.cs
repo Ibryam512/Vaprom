@@ -25,6 +25,12 @@ namespace Repositories
             this._context.SaveChanges();
         }
 
+        public void EditRole(Role role)
+        {
+            this._context.Roles.Update(role);
+            this._context.SaveChanges();
+        }
+
         public void DeleteRole(Role role)
         {
             this._context.Roles.Remove(role);
