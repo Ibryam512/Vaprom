@@ -17,7 +17,7 @@ namespace Repositories
 
         public IQueryable<Role> GetRoles() => this._context.Roles.AsQueryable();
 
-        public Role GetRole(string name) => this._context.Roles.Find(name);
+        public Role GetRole(string id) => this._context.Roles.Find(id);
 
         public void AddRole(Role role)
         {
