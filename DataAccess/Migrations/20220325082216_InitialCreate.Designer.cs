@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(VacationManagerDbContext))]
-    [Migration("20220320100429_InitialCreate")]
+    [Migration("20220325082216_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,28 +40,36 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Models.Role", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Roles");
 
                     b.HasData(
                         new
                         {
+                            Id = "1",
                             Name = "CEO"
                         },
                         new
                         {
+                            Id = "2",
                             Name = "Developer"
                         },
                         new
                         {
+                            Id = "3",
                             Name = "Team Lead"
                         },
                         new
                         {
+                            Id = "4",
                             Name = "Unassigned"
                         });
                 });
@@ -105,7 +113,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleName")
+                    b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TeamId")
@@ -116,7 +124,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleName");
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("TeamId");
 
@@ -179,7 +187,7 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("Models.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleName");
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("Models.Team", "Team")
                         .WithMany("Developers")
