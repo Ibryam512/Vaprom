@@ -13,7 +13,7 @@
 	margin: 0px;
 }
 
-#allCaps{
+#allCaps {
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 51px;
@@ -28,15 +28,20 @@
 	font-size: 19px !important;
 }
 
+	.dark-button:hover {
+		background-color: #F4976C;
+		color: #D1FDFE;
+	}
+
 .bg-lightblue {
 	background-color: #B4DFE5;
 }
 
-nav{
+nav {
 	font-family: Montserrat;
 }
 
-.resize{
+.resize {
 	font-size: 1.6vw;
 }
 
@@ -314,4 +319,3 @@ a.seen-link {
 	text-decoration: none;
 	padding-bottom: 5px;
 }
-
