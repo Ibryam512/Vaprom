@@ -1,0 +1,77 @@
+﻿@model ViewModels.Input.RegisterUserViewModel
+@inject Repositories.Interfaces.IRoleRepository RoleRepo
+@inject Repositories.Interfaces.ITeamRepository TeamRepo
+
+<body class="bg-orange">
+	<div class="container pb-5">
+		<div class="row justify-content-center lower">
+			<div class="col-md-6 register-form-bg rounded-lg">
+				<form asp-action="Register" asp-controller="User" method="post">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="form-group text-center">
+						<h2 class="dark-heading b">Добави служител</h2>
+						<br />
+						<div asp-validation-summary="All" class="text-danger"></div>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Потребителско име</label>
+						<input asp-for="Username" class="form-control dark-heading" placeholder="Въведете потребителско име..." />
+						<span asp-validation-for="Username" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Собствено име</label>
+						<input asp-for="FirstName" class="form-control dark-heading" placeholder="Въведете собственото име..." />
+						<span asp-validation-for="FirstName" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Фамилия</label>
+						<input asp-for="LastName" class="form-control dark-heading" placeholder="Въведете фамилията..." />
+						<span asp-validation-for="LastName" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Парола</label>
+						<input type="password" asp-for="Password" class="form-control dark-heading" placeholder="Въведете паролата..." />
+						<span asp-validation-for="Password" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Повтори парола</label>
+						<input type="password" asp-for="ConfirmPassword" class="form-control dark-heading" placeholder="Повторете паролата..." />
+						<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Роля</label>
+						<select class="form-control dark-heading" onchange="displayTeams()">
+							@foreach (var role in RoleRepo.GetRoles())
+							{
+								<option id="@role.Id">@role.Name</option>
+							}
+						</select>
+					</div>
+					<div class="form-group" id="teams">
+						<label class="control-label dark-heading">Екип</label>
+						<select class="form-control dark-heading" onchange="displayTeams()">
+							@foreach (var team in TeamRepo.GetTeams())
+							{
+								<option>@team.Name</option>
+							}
+						</select>
+					</div>
+					<div class="form-group align-items-center text-center">
+						<input type="submit" id="register" value="Регистрация" class="btn btn-lg dark-button" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+	function displayTeams(){
+		if (document.getElementById('2').selected == true || document.getElementById('3').selected == true) {
+			document.getElementById('teams').style.display = "inline";
+		}
+		else {
+			document.getElementById('teams').style.display = "none";
+		}
+	}
+</script>
