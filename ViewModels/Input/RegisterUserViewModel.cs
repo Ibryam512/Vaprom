@@ -11,6 +11,9 @@ namespace ViewModels.Input
 		[Required(ErrorMessage = "Паролата е задължителна")]
 		public string Password { get; set; }
 
+		[Required(ErrorMessage = "Паролата за потвърждение не може да е празна")]
+		public string ConfirmPassword { get; set; }
+
 		[Required(ErrorMessage = "Собственото име е задължително")]
 		public string FirstName { get; set; }
 
