@@ -2,9 +2,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels
+namespace ViewModels.Input
 {
-	public class VacationDTO
+	public class VacationViewModel
 	{
 		[Required(ErrorMessage = "Типа на отпуската не може да е празен")]
 		public VacationType VacationType { get; set; }

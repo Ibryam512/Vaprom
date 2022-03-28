@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels
+namespace ViewModels.Input
 {
-	public class RoleDTO
+	public class RoleViewModel
 	{
 		[Required(ErrorMessage = "Името на ролята е задължително")]
 		public string Name { get; set; }
