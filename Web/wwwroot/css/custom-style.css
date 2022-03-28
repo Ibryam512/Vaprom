@@ -37,16 +37,52 @@
 	background-color: #B4DFE5;
 }
 
+.bg-orange {
+	background-color: #F4976C;
+}
+
+.b {
+	font-weight: bold;
+}
+
 nav {
 	font-family: Montserrat;
 }
 
-.resize {
-	font-size: 1.6vw;
+#register {
+	background: linear-gradient(0deg, #303C6C, #303C6C) no-repeat right / 0 var(--bg-h);
+	transition: background-size 250ms;
+	--bg-h: 100%;
+	color: #303C6C;
+	font-family: Montserrat;
+	font-weight: bold;
+	margin-top: 30px;
+	text-decoration: underline;
 }
 
-.banner-heading {
-	font-family: Bahnschrift;
+	#register:where(:hover, :focus-visible) {
+		background-size: 100% var(--bg-h);
+		background-position-x: left;
+		color: #F4976C;
+		text-decoration: none;
+	}
+
+.faded-text {
+	color: #707070;
+}
+
+	.faded-text :hover {
+		color: #F4976C;
+	}
+
+.faded-link {
+	color: #707070;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+#teams {
+	display: none;
 }
 
 textarea:focus,
@@ -65,21 +101,31 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-	border-color: #013840;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 106, 122, 0.9);
+	border-color: #303C6C;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(48,60,108,0.9);
 	outline: 0 none;
 }
 
 .input:focus {
-	border-color: #013840;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 106, 122, 0.9);
+	border-color: #303C6C;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(48,60,108,0.9);
 	outline: 0 none;
 }
 
 .form-control:focus {
-	border-color: #013840;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 106, 122, 0.9);
+	border-color: #303C6C;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(48,60,108,0.9);
 	outline: 0 none;
+}
+
+/*end of new style*/
+
+.resize {
+	font-size: 1.6vw;
+}
+
+.banner-heading {
+	font-family: Bahnschrift;
 }
 
 
@@ -174,47 +220,13 @@ div.lower {
 	margin-top: 100px;
 }
 
-.dark-body {
-	background-color: #006A7A;
-}
-
 div.register-form-bg {
 	background-color: white;
 	padding: 50px;
 }
 
-#register {
-	background: linear-gradient(0deg, #006A7A, #006A7A) no-repeat right / 0 var(--bg-h);
-	transition: background-size 250ms;
-	--bg-h: 100%;
-	color: #006A7A;
-	font-family: Bahnschrift;
-	font-weight: bold;
-	margin-top: 30px;
-}
-
-	#register:where(:hover, :focus-visible) {
-		background-size: 100% var(--bg-h);
-		background-position-x: left;
-		color: #FFCC48;
-	}
-
 .form-check {
 	padding-right: 0px;
-}
-
-.faded-text {
-	color: #707070;
-}
-
-	.faded-text :hover {
-		color: #006A7A;
-	}
-
-.faded-link {
-	color: #707070;
-	text-decoration: underline;
-	font-weight: bold;
 }
 
 input::-webkit-file-upload-button {
