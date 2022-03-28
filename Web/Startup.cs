@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Web.Services;
+using Web.Services.Interfaces;
 
 namespace VacationManager.Web
 {
@@ -29,8 +31,12 @@ namespace VacationManager.Web
         {
             services.AddControllersWithViews();
 
+            //Repositories
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
+
+            //Services
+            services.AddScoped<ITeamService, TeamService>();
 
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
