@@ -1,0 +1,79 @@
+﻿@model ViewModels.Input.TeamViewModel
+@inject Repositories.Interfaces.IProjectRepository ProjectRepo
+@inject Repositories.Interfaces.IUserRepository UserRepo
+
+<body class="bg-orange">
+	<div class="container pb-5">
+		<div class="row justify-content-center lower">
+			<div class="col-md-6 register-form-bg rounded">
+				<form asp-action="Login" asp-controller="User" method="post">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="form-group text-center">
+						<h2 class="dark-heading b">Създай екип</h2>
+						<br />
+						<div asp-validation-summary="All" class="text-danger"></div>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Име</label>
+						<input asp-for="Name" class="form-control dark-heading" placeholder="Въведете име на екипа..." />
+						<span asp-validation-for="Name" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Проект</label>
+						<select class="form-control dark-heading">
+							@foreach (var project in ProjectRepo.GetProjects())
+							{
+								<option>@project.Name</option>
+							}
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Team Lead</label>
+						<select class="form-control dark-heading" id="leadSelect">
+							@foreach (var teamLead in UserRepo.GetUsers().Where(x => x.Role.Name == "Team Lead"))
+							{
+								<option>@teamLead.FirstName @teamLead.LastName</option>
+							}
+						</select>
+					</div>
+					<div class="form-group" id="developersDiv">
+						<label class="control-label dark-heading">Екипи</label>
+						<select class="form-control dark-heading" id="developerSelect">
+							@foreach (var developer in UserRepo.GetUsers().Where(x => x.Role.Name == "Developer"))
+							{
+								<option id="option_@developer.Id">@developer.FirstName @developer.LastName</option>
+							}
+						</select>
+					</div>
+					<div class="form-group align-items-center text-center">
+						<button type="button" class="btn reverse-button align-self-center" onclick="GetMoreDevelopers()" style="font-size: 15px !important;">Добави още разработчици</button>
+					</div>
+					<div class="form-group align-items-center text-center">
+						<input type="submit" id="register" value="Създай" class="btn btn-lg dark-button rounded" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+	function GetMoreDevelopers() {
+		var myDiv = document.getElementById("developersDiv");
+
+		var selectList = document.createElement("select");
+		selectList.setAttribute("id", "mySelect");
+		selectList.classList.add("form-control");
+		selectList.classList.add("dark-heading");
+		selectList.classList.add("pb-2");
+		myDiv.appendChild(selectList);
+
+		for (var i = 0; i < document.getElementById("developerSelect").length; i++) {
+			var option = document.createElement("option");
+			option.setAttribute("value", document.getElementById("option_" + (i + 1)).textContent);
+			option.innerHTML = document.getElementById("option_" + (i + 1)).innerHTML;
+			selectList.appendChild(option);
+			console.log(document.getElementById("option_" + (i + 1)));
+		}
+	}
+</script>
