@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UnitTests
+namespace UnitTests.Repositories
 {
     public class VacationRepositoryTests
     {

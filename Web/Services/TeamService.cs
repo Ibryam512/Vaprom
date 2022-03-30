@@ -28,7 +28,7 @@ namespace Web.Services
             this._teamRepository.EditTeam(team);
         }
 
-        public void RemoveTeamLead(User user, Team team)
+        public void RemoveTeamLead(Team team)
         {
             team.TeamLeader = null;
             this._teamRepository.EditTeam(team);
@@ -52,7 +52,7 @@ namespace Web.Services
             this._teamRepository.EditTeam(team);
         }
 
-        public void RemoveProjectFromTeam(Project project, Team team)
+        public void RemoveProjectFromTeam(Team team)
         {
             team.Project = null;
             this._teamRepository.EditTeam(team);
