@@ -33,6 +33,19 @@
 		color: #D1FDFE;
 	}
 
+.reverse-button {
+	color: #D1FDFE;
+	background-color: #F4976C;
+	font-weight: normal;
+	font-family: Montserrat;
+	font-size: 19px !important;
+}
+
+	.reverse-button:hover {
+		background-color: #303C6C;
+		color: #FFCC48;
+	}
+
 .bg-lightblue {
 	background-color: #B4DFE5;
 }
@@ -118,6 +131,9 @@ input[type="color"]:focus,
 	outline: 0 none;
 }
 
+#moreTeams{
+	font-size: 15px !important;
+}
 /*end of new style*/
 
 .resize {

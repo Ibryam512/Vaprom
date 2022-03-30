@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels
+namespace ViewModels.Input
 {
-	public class ProjectDTO
+	public class ProjectViewModel
 	{
 		[Required(ErrorMessage = "Името на проекта не може да е празно")]
 		public string Name { get; set; }
