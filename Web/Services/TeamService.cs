@@ -58,6 +58,8 @@ namespace Web.Services
             this._teamRepository.EditTeam(team);
         }
 
+        public void EditTeam(Team team) => this._teamRepository.EditTeam(team);
+
         public void DeleteTeam(Team team) => this._teamRepository.DeleteTeam(team);
     }
 }

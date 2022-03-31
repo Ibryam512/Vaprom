@@ -16,6 +16,7 @@ namespace Web.Services.Interfaces
         void RemoveUserFromTeam(User user, Team team);
         void AddProjectToTeam(Project project, Team team);
         void RemoveProjectFromTeam(Team team);
+        void EditTeam(Team team);
         void DeleteTeam(Team team);
     }
 }
