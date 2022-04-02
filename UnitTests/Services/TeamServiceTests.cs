@@ -186,6 +186,19 @@ namespace UnitTests.Services
         }
 
         [Test]
+        public void EditTeamTest()
+        {
+            sampleTeam.Name = "editedTeamName";
+            _TeamService.EditTeam(sampleTeam);
+            var team = _TeamService.GetTeams().SingleOrDefault(x => x.Id == sampleTeam.Id);
+
+            Assert.IsInstanceOf<Team>(team);
+            Assert.IsNotNull(team);
+            Assert.That(team, Is.TypeOf<Team>());
+            Assert.That(team.Name, Is.EqualTo("editedTeamName"));
+        }
+
+        [Test]
         public void DeleteTeamTest()
         {
             var teams = _TeamService.GetTeams();
