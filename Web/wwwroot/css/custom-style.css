@@ -134,6 +134,63 @@ input[type="color"]:focus,
 #moreTeams{
 	font-size: 15px !important;
 }
+
+input::-webkit-file-upload-button {
+	background-color: #303C6C;
+	color: white;
+	border: 2px solid #303C6C;
+	border-radius: 4px;
+	height: 50px;
+	width: 120px;
+	font-family: Montserrat;
+}
+
+	input::-webkit-file-upload-button:hover {
+		background-color: #F4976C;
+		color: #303C6C;
+		border: 2px solid #303C6C;
+		cursor: pointer;
+	}
+
+#file{
+	display: none;
+}
+
+input[type=checkbox] {
+	-ms-transform: scale(1.6); /* IE */
+	-moz-transform: scale(1.6); /* FF */
+	-webkit-transform: scale(1.6); /* Safari and Chrome */
+	-o-transform: scale(1.6); /* Opera */
+	padding: 10px;
+	border-color: #303C6C;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+	background-color: #303C6C !important;
+	border-color: #303C6C;
+}
+
+.custom-checkbox .custom-control-input:checked:focus ~ .custom-control-label::before {
+	box-shadow: 0 0 0 1px #303C6C, 0 0 0 0.2rem rgba(0, 0, 255, 0.25);
+	border-color: #303C6C;
+}
+
+.custom-checkbox .custom-control-input:focus ~ .custom-control-label::before {
+	box-shadow: 0 0 0 1px #303C6C, 0 0 0 0.2rem rgba(0, 0, 0, 0.25);
+	border-color: #303C6C;
+}
+
+.custom-checkbox .custom-control-input:active ~ .custom-control-label::before {
+	background-color: #303C6C;
+	border-color: #303C6C;
+}
+
+#halfDay{
+	font-family: Montserrat;
+	font-size: 17px;
+	margin-left: 7px;
+}
+
 /*end of new style*/
 
 .resize {
@@ -244,22 +301,6 @@ div.register-form-bg {
 .form-check {
 	padding-right: 0px;
 }
-
-input::-webkit-file-upload-button {
-	background-color: white;
-	color: #006A7A;
-	border: 2px solid #006A7A;
-	border-radius: 4px;
-	height: 50px;
-	width: 120px;
-}
-
-	input::-webkit-file-upload-button:hover {
-		background-color: #006A7A;
-		color: #FFCC48;
-		border: 2px solid #006A7A;
-		cursor: pointer;
-	}
 
 a.user {
 	color: #006A7A;
