@@ -1,4 +1,5 @@
-﻿using Models.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using Models.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,5 +24,6 @@ namespace ViewModels.Input
 		public string ApplicantUsername { get; set; }
 
 		public string FilePath { get; set; }
+		public IFormFile File { get; set; }
 	}
 }
