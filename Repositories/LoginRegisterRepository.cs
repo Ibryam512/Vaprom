@@ -10,11 +10,11 @@ using Repositories.Helpers;
 
 namespace Repositories
 {
-    class LoginRegisterRepository : ILoginRegisterRepository
+   public class LoginRegisterRepository : ILoginRegisterRepository
     {
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly VacationManagerDbContext _context;
-        public LoginRegisterRepository(UserRepository userRepository, VacationManagerDbContext context)
+        public LoginRegisterRepository(VacationManagerDbContext context, IUserRepository userRepository)
         {
             this._userRepository = userRepository;
             this._context = context ?? throw new ArgumentNullException(nameof(context));
@@ -60,6 +60,10 @@ namespace Repositories
             user.PasswordHash = Hasher.Hash(password);
             user.FirstName = firstName;
             user.LastName = lastName;
+            if(_context.Users.Any(x=>x.UserName==user.UserName))
+            {
+                throw new ArgumentException("Потребител със същото име вече съществува");
+            }
             _userRepository.AddUser(user);
 
         }

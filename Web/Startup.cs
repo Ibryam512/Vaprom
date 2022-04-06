@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Web.Services;
 using Web.Services.Interfaces;
 
+
 namespace VacationManager.Web
 {
     public class Startup
@@ -34,6 +35,9 @@ namespace VacationManager.Web
             //Repositories
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ILoginRegisterRepository, LoginRegisterRepository>();
+            
 
             //Services
             services.AddScoped<ITeamService, TeamService>();
