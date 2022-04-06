@@ -53,13 +53,14 @@ namespace Repositories
 
         }
 
-        public void Register(string username, string password, string firstName, string lastName)
+        public void Register(string username, string password, string firstName, string lastName, Role role)
         {
             User user = new User();
             user.UserName = username;
             user.PasswordHash = Hasher.Hash(password);
             user.FirstName = firstName;
             user.LastName = lastName;
+            user.Role = role;
             if(_context.Users.Any(x=>x.UserName==user.UserName))
             {
                 throw new ArgumentException("Потребител със същото име вече съществува");

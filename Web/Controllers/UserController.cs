@@ -4,15 +4,18 @@ using Repositories.Interfaces;
 using Repositories.Helpers;
 using System;
 using System.Linq;
+using DataAccess;
 
 namespace Web.Controllers
 {
 	public class UserController : Controller
 	{
 		private ILoginRegisterRepository loginRegisterRepository;
-		public UserController(ILoginRegisterRepository _loginRegisterRepository)
+		private VacationManagerDbContext vacationManagerDbContext;
+		public UserController(ILoginRegisterRepository _loginRegisterRepository, VacationManagerDbContext _vacationManagerDbContext)
         {
 			this.loginRegisterRepository = _loginRegisterRepository;
+			this.vacationManagerDbContext = _vacationManagerDbContext;
         }
 		[HttpGet]
 		public IActionResult Register()
@@ -37,10 +40,12 @@ namespace Web.Controllers
 				string lastName = model.LastName;
 				string username = model.Username;
 				string password = model.Password;
+				//should be fiexd
+				var roleModel = vacationManagerDbContext.Roles.FirstOrDefault(x => x.Name == model.Role.Name);
 
 				try
 				{
-					loginRegisterRepository.Register(username, password, firstName, lastName);
+					loginRegisterRepository.Register(username, password, firstName, lastName, roleModel);
 				}
 				catch (Exception)
 				{
