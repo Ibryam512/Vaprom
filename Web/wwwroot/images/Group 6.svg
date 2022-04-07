@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122">
+  <g id="Group_6" data-name="Group 6" transform="translate(-642 -472)">
+    <g id="Ellipse_3" data-name="Ellipse 3" transform="translate(642 472)" fill="#fff" stroke="#303c6c" stroke-width="1">
+      <circle cx="61" cy="61" r="61" stroke="none"/>
+      <circle cx="61" cy="61" r="60.5" fill="none"/>
+    </g>
+    <path id="Icon_ionic-md-person" data-name="Icon ionic-md-person" d="M38.43,37.289c9.332,0,16.965-7.378,16.965-16.394S47.761,4.5,38.43,4.5,21.465,11.878,21.465,20.894,29.1,37.289,38.43,37.289Zm0,8.2C27.191,45.486,4.5,51.019,4.5,61.88v8.2H72.359v-8.2C72.359,51.019,49.669,45.486,38.43,45.486Z" transform="translate(664.57 495.711)" fill="#303c6c"/>
+  </g>
+</svg>
