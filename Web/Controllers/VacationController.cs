@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models.Enums;
+using Repositories.Helpers;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,10 @@ namespace Web.Controllers
 		{
 			VacationViewModel model = new VacationViewModel
 			{
-				ApplicantUsername = "firstUser",
-				ApplicantName = "First",
-				ApplicantSurname = "User",
-				ApplicantTeam = "team1",
+				ApplicantUsername = Logged.User.UserName,
+				ApplicantName = Logged.User.FirstName,
+				ApplicantSurname = Logged.User.LastName,
+				ApplicantTeam = Logged.User.Team.Name,
 				FromDate = DateTime.Today,
 				ToDate = DateTime.Today
 			};
@@ -49,7 +50,7 @@ namespace Web.Controllers
 				ToDate = model.ToDate,
 				IsApproved = false,
 				IsHalfDay = model.IsHalfDay,
-				ApplicantUsername = "firstUser",
+				ApplicantUsername = model.ApplicantUsername,
 				FilePath = model.FilePath
 			};
 
