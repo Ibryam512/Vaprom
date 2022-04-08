@@ -31,7 +31,8 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Search(ProjectSearch search)
         {
-			if(search.Name is not null)
+			search.Results = this._projects.GetProjects();
+			if (search.Name is not null)
             {
 				search.Results=search.Results.Where(x=>x.Name.Contains(search.Name)).ToList();
             }
