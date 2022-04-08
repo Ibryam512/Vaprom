@@ -60,9 +60,15 @@ namespace Web.Controllers
 		[HttpPost]
 		public IActionResult Create(VacationViewModel model)
 		{
-			model.VacationType = vacationTypes[model.VacationTypeText];
-			Vacation vacation = this._mapper.Map<Vacation>(model);
-			vacation.Applicant = Logged.User;
+			VacationDTO vacation = new VacationDTO
+			{
+				FromDate = model.FromDate,
+				ToDate = model.ToDate,
+				Status = ApprovalStatus.Awaiting,
+				IsHalfDay = model.IsHalfDay,
+				ApplicantUsername = model.ApplicantUsername,
+				FilePath = model.FilePath
+			};
 
 			if (model.File != null)
             {
@@ -81,7 +87,6 @@ namespace Web.Controllers
 				vacation.FilePath = null;
             }
 					
-			this._vacationService.AddVacation(vacation);
 			return RedirectToAction("Index", "Home");
 		}
 
