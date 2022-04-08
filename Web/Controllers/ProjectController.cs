@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.SearchModel;
 using Repositories;
 using Repositories.Interfaces;
 using System;
@@ -7,14 +8,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ViewModels.Input;
+using Web.Services.Interfaces;
 
 namespace Web.Controllers
 {
 	public class ProjectController : Controller
 	{
-		private IProjectRepository _projects;
+		private IProjectService _projects;
 
-		public ProjectController(IProjectRepository projects)
+		public ProjectController(IProjectService projects)
 		{
 			this._projects = projects;
 		}
@@ -22,7 +24,24 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Index()
 		{
-			return View();
+			ProjectSearch search = new ProjectSearch();
+			search.Results = this._projects.GetProjects();
+			return View(search);
+		}
+		[HttpGet]
+		public IActionResult Search(ProjectSearch search)
+        {
+			if(search.Name is not null)
+            {
+				search.Results=search.Results.Where(x=>x.Name.Contains(search.Name)).ToList();
+            }
+
+			if(search.Description is not null)
+            {
+				search.Results = search.Results.Where(x => x.Description.Contains(search.Description)).ToList();
+			}
+
+			return View("Index", search);
 		}
 
 		[HttpGet]
