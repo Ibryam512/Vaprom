@@ -22,13 +22,14 @@ namespace Web.Controllers
 			this._mapper = mapper;
 			this._roleService = roleService;
 		}
+
 		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();
 		}
-
-		[HttpGet]
+        #region CreateRole
+        [HttpGet]
 		public IActionResult Create()
 		{
 			RoleViewModel model = new RoleViewModel();
@@ -49,7 +50,10 @@ namespace Web.Controllers
 				return View(model);
 			}
 		}
-		[HttpGet]
+        #endregion
+
+        #region EditRole
+        [HttpGet]
 		[Route("post/edit/{id}")]
 		public IActionResult Edit([FromRoute] string id)
 		{
@@ -77,8 +81,10 @@ namespace Web.Controllers
 				return View(model);
 			}
 		}
+        #endregion
 
-		[HttpGet]
+        #region DeleteRole
+        [HttpGet]
 		[Route("post/delete/{id}")]
 		public IActionResult Delete([FromRoute] string id)
 		{
@@ -95,5 +101,6 @@ namespace Web.Controllers
 			return RedirectToAction("Index", "Role");
 
 		}
-	}
+        #endregion
+    }
 }
