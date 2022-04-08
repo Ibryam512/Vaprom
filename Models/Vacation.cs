@@ -10,7 +10,7 @@ namespace Models
         public DateTime ToDate { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsHalfDay { get; set; }
-        public bool IsApproved { get; set; }
+        public ApprovalStatus Status { get; set; }
         public User Applicant { get; set; }
         public string? FilePath { get; set; }
     }

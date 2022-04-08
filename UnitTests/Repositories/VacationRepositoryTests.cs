@@ -23,7 +23,7 @@ namespace UnitTests.Repositories
                 ToDate = new DateTime(),
                 CreationDate = new DateTime(),
                 IsHalfDay = false,
-                IsApproved = false
+                Status = ApprovalStatus.Awaiting
             };
 
         [SetUp]
@@ -88,7 +88,7 @@ namespace UnitTests.Repositories
         {
             var count = _Context.Vacations.ToList().Count;
             var Vacation = _Context.Vacations.First();
-            Vacation.IsApproved = true;
+            Vacation.Status = ApprovalStatus.Approved;
             _VacationRepository.EditVacation(Vacation);
             var editedVacation = _Context.Vacations.First();
             var Vacations = _Context.Vacations.ToList();
@@ -96,7 +96,7 @@ namespace UnitTests.Repositories
             Assert.IsNotNull(editedVacation);
             Assert.IsInstanceOf<Vacation>(editedVacation);
             Assert.That(editedVacation, Is.TypeOf<Vacation>());
-            Assert.That(editedVacation.IsApproved, Is.EqualTo(true));
+            Assert.That(editedVacation.Status, Is.EqualTo(ApprovalStatus.Approved));
             Assert.That(Vacations.Count, Is.EqualTo(count));
         }
 
