@@ -20,5 +20,11 @@ namespace Web.Controllers
 
 			return View(model);
 		}
+
+		[HttpGet]
+		public IActionResult Profile()
+		{
+			return View();
+		}
 	}
 }
