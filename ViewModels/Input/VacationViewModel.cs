@@ -8,7 +8,8 @@ namespace ViewModels.Input
 	public class VacationViewModel
 	{
 		[Required(ErrorMessage = "Типа на отпуската не може да е празен")]
-		public string VacationType { get; set; }
+		public string VacationTypeText { get; set; }
+		public VacationType VacationType { get; set; }
 		
 		[Required(ErrorMessage = "Датата за начало на отпуската е задължителна")]
 		public DateTime FromDate { get; set; }

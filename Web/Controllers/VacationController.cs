@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.Enums;
 using Repositories.Helpers;
 using Repositories.Interfaces;
@@ -15,19 +18,21 @@ namespace Web.Controllers
 {
 	public class VacationController : Controller
 	{
-		private IVacationRepository _vacation;
+		private readonly IVacationService _vacationService;
+		private readonly IVacationDocumentService _documentService;
+		private readonly IMapper _mapper;
+		private IWebHostEnvironment _webHostEnv;
 		private Dictionary<string, VacationType> vacationTypes = new Dictionary<string, VacationType>();
-    private readonly IVacationDocumentService _documentService;
 
-
-		public VacationController(IVacationRepository vacation, IVacationDocumentService documentService)
+		public VacationController(IVacationService vacationService, IVacationDocumentService documentService, IMapper mapper, IWebHostEnvironment webHostEnvironment)
 		{
-			this._vacation = vacation;
+			this._vacationService = vacationService ?? throw new ArgumentNullException(nameof(vacationService));
+			this._documentService = documentService ?? throw new ArgumentNullException(nameof(documentService));
+			this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+
 			vacationTypes.Add("Болничен", VacationType.Sick);
 			vacationTypes.Add("Платен", VacationType.Paid);
 			vacationTypes.Add("Неплатен", VacationType.Unpaid);
-      
-      this._documentService = documentService ?? throw new ArgumentNullException(nameof(documentService));
 		}
 
 		[HttpGet]
@@ -36,7 +41,7 @@ namespace Web.Controllers
 			return View();
 		}
     
-    [HttpGet]
+    	[HttpGet]
 		public IActionResult Create()
 		{
 			VacationViewModel model = new VacationViewModel
@@ -44,7 +49,7 @@ namespace Web.Controllers
 				ApplicantUsername = Logged.User.UserName,
 				ApplicantName = Logged.User.FirstName,
 				ApplicantSurname = Logged.User.LastName,
-				ApplicantTeam = Logged.User.Team.Name,
+				//ApplicantTeam = Logged.User.Team.Name,
 				FromDate = DateTime.Today,
 				ToDate = DateTime.Today
 			};
@@ -55,18 +60,29 @@ namespace Web.Controllers
 		[HttpPost]
 		public IActionResult Create(VacationViewModel model)
 		{
-			VacationDTO vacation = new VacationDTO
-			{
-				VacationType = this.vacationTypes[model.VacationType],
-				FromDate = model.FromDate,
-				ToDate = model.ToDate,
-				IsApproved = false,
-				IsHalfDay = model.IsHalfDay,
-				ApplicantUsername = model.ApplicantUsername,
-				FilePath = model.FilePath
-			};
+			model.VacationType = vacationTypes[model.VacationTypeText];
+			Vacation vacation = this._mapper.Map<Vacation>(model);
+			vacation.Applicant = Logged.User;
 
-			return View();
+			if (model.File != null)
+            {
+				string Pathern = Path.Combine(_webHostEnv.WebRootPath, "Files");
+				string fileName = Guid.NewGuid() + "-" + model.File.FileName;
+				string filePathern = Path.Combine(Pathern, fileName);
+
+				using (var fileStream = new FileStream(filePathern, FileMode.Create))
+				{
+					model.File.CopyTo(fileStream);
+				}
+				vacation.FilePath = filePathern;
+			}
+			else
+            {
+				vacation.FilePath = null;
+            }
+					
+			this._vacationService.AddVacation(vacation);
+			return RedirectToAction("Index", "Home");
 		}
 
 		[HttpGet]
@@ -84,11 +100,36 @@ namespace Web.Controllers
 
 			return View(model);
 		}
+
+		[HttpPost]
+		public IActionResult Edit(VacationViewModel model)
+		{
+			Vacation vacation = this._mapper.Map<Vacation>(model);
+
+			if (model.File!=null)
+            {
+				string Pathern = Path.Combine(_webHostEnv.WebRootPath, "Files");
+				string fileName = Guid.NewGuid() + "-" + model.File.FileName;
+				string filePathern = Path.Combine(Pathern, fileName);
+
+				using (var fileStream = new FileStream(filePathern, FileMode.Create))
+				{
+					model.File.CopyTo(fileStream);
+				}
+				vacation.FilePath = filePathern;
+			}
+			else
+            {
+				vacation.FilePath = null;
+            }
+					
+			this._vacationService.EditVacation(vacation);
+			return RedirectToAction("Index", "Home");
+		}
     
 		public FileResult DownloadFile(string fileName)
         {
-			//когато е готов LoggedUser-а ще се махне коментара
-            //this._documentService.GenerateDocument();
+            //this._documentService.GenerateDocument(Logged.User);
 
             string path = Path.Combine("Files/") + fileName;
 
