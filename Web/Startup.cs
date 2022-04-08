@@ -43,9 +43,9 @@ namespace VacationManager.Web
             
             //Services
             services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<ITeamService, TeamService>();
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IUserService, UserService>();
+
+
+            
 
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
