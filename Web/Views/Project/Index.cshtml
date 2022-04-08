@@ -1,0 +1,12 @@
+﻿@using Repositories.Helpers;
+@using Web.Components
+
+<body class="bg-orange">
+	<div class="row py-5 px-4">
+		<div class="col-md-10 mx-auto">
+			<component type="typeof(ProjectList)" render-mode="Server" />
+		</div>
+	</div>
+</body>
+
+<script src="_framework/blazor.server.js"></script>

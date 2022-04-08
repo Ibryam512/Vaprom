@@ -1,0 +1,59 @@
+﻿@using MudBlazor
+@using Models.Enums
+@inject Repositories.Interfaces.IProjectRepository repository
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+	<MudMainContent>
+		<table class="table rounded-pill filter-heading">
+			<thead>
+				<tr>
+					<th scope="col" style="padding-bottom: 20px;">
+						<input class="form-control dark-heading rounded-pill" placeholder="Въведете име на проекта..." />
+					</th>
+					<th scope="col" style="padding-bottom: 20px;">
+						<input class="form-control dark-heading rounded-pill" placeholder="Въведете описанието на проекта..." />
+					</th>
+					<th scope="col">
+						<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" class="bi bi-search" viewBox="0 0 16 16" style="margin-bottom: 15px;">
+							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+						</svg>
+					</th>
+				</tr>
+			</thead>
+		</table>
+		@foreach (var project in repository.GetProjects())
+		{
+			<table class="table rounded-pill result-table">
+				<tbody>
+					<tr>
+						<td class="col-5" style="padding-left: 30px;">
+							<div class="bg-white rounded-pill p-2 text-center">
+								<h5 class="dark-heading">Project Name</h5>
+							</div>
+						</td>
+						<td class="col-5">
+							<div class="bg-white rounded-pill p-2 text-center">
+								<h5 class="dark-heading">Shorten description</h5>
+							</div>
+						</td>
+						<td class="col-2 align-items-center text-center">
+							<div>
+								<svg xmlns="http://www.w3.org/2000/svg" fill="#303C6C" class="bi bi-backspace-fill edit-delete" viewBox="0 0 16 16">
+									<path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z" />
+								</svg>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		}
+
+		@code {
+			
+		}
+	</MudMainContent>
+</MudLayout>
