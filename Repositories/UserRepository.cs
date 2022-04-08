@@ -1,4 +1,5 @@
 ﻿using DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories.Interfaces;
 using System;
@@ -15,7 +16,7 @@ namespace Repositories
             this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IQueryable<User> GetUsers() => this._context.Users.AsQueryable();
+        public IQueryable<User> GetUsers() => this._context.Users.Include(x => x.Team).Include(x => x.Role).AsQueryable();
 
         public User GetUser(string id) => this._context.Users.Find(id);
 

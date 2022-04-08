@@ -49,7 +49,7 @@
 					</div>
 					<div class="form-group" id="teams">
 						<label class="control-label dark-heading">Екип</label>
-						<select class="form-control dark-heading" onchange="displayTeams()">
+						<select class="form-control dark-heading" onchange="displayTeams()" asp-for="TeamName">
 							@foreach (var team in TeamRepo.GetTeams())
 							{
 								<option>@team.Name</option>
