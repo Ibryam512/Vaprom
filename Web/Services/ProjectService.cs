@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories.Interfaces;
 using Web.Services.Interfaces;
@@ -16,9 +17,9 @@ namespace Web.Services
             this._projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
         }
 
-        public List<Project> GetProjects() => this._projectRepository.GetProjects().ToList();
+        public List<Project> GetProjects() => this._projectRepository.GetProjects().Include(x => x.Teams).ToList();
 
-        public Project GetProject(string id) => this._projectRepository.GetProject(id);
+        public Project GetProject(string id) => GetProjects().Find(x => x.Id == id);
 
         public void AddProject(Project project) => this._projectRepository.AddProject(project);
 
