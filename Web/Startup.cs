@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Web.Services;
 using Web.Services.Interfaces;
+using Repositories.Mapper;
+using AutoMapper;
 
 
 namespace VacationManager.Web
@@ -42,10 +44,10 @@ namespace VacationManager.Web
 
             //Services
             services.AddScoped<ITeamService, TeamService>();
-
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("IbryamConnection")));
+            MapperConfiguration mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile())); services.AddSingleton(mapperConfig.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

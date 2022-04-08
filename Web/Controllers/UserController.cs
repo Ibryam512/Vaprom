@@ -5,6 +5,9 @@ using Repositories.Helpers;
 using System;
 using System.Linq;
 using DataAccess;
+using AutoMapper;
+using Repositories.Mapper;
+using Models;
 
 namespace Web.Controllers
 {
@@ -12,8 +15,10 @@ namespace Web.Controllers
 	{
 		private ILoginRegisterRepository loginRegisterRepository;
 		private VacationManagerDbContext vacationManagerDbContext;
-		public UserController(ILoginRegisterRepository _loginRegisterRepository, VacationManagerDbContext _vacationManagerDbContext)
+		private IMapper mappingProfile;
+		public UserController(IMapper _mappingProfile, ILoginRegisterRepository _loginRegisterRepository, VacationManagerDbContext _vacationManagerDbContext)
         {
+			this.mappingProfile = _mappingProfile;
 			this.loginRegisterRepository = _loginRegisterRepository;
 			this.vacationManagerDbContext = _vacationManagerDbContext;
         }
@@ -35,17 +40,11 @@ namespace Web.Controllers
 					return View(model);
 				}
 
-
-				string firstName = model.FirstName;
-				string lastName = model.LastName;
-				string username = model.Username;
-				string password = model.Password;
-				//should be fiexd
-				var roleModel = vacationManagerDbContext.Roles.FirstOrDefault(x => x.Name == model.Role.Name);
-
+				User user = this.mappingProfile.Map<User>(model);
 				try
 				{
-					loginRegisterRepository.Register(username, password, firstName, lastName, roleModel);
+					loginRegisterRepository.Register(user);
+					Logged.User = user;
 				}
 				catch (Exception)
 				{
@@ -67,6 +66,30 @@ namespace Web.Controllers
 			LoginUserViewModel model = new LoginUserViewModel();
 
 			return View(model);
+		}
+		[HttpPost]
+		public IActionResult Login(LoginUserViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					string username = model.Username;
+					string password = model.Password;
+					this.loginRegisterRepository.Login(username, password);
+				}
+				catch (Exception)
+				{
+					ModelState.AddModelError("loginError", "Невалидно потребителско име или парола");
+					return View(model);
+				}
+			}
+			else
+			{
+				return View(model);
+			}
+
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }
