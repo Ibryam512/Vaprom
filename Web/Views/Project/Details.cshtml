@@ -1,0 +1,56 @@
+﻿@model ViewModels.Input.ProjectViewModel
+@inject Repositories.Interfaces.ITeamRepository TeamRepo
+
+<body class="bg-orange">
+	<div class="container pb-5">
+		<div class="row justify-content-center lower">
+			<div class="col-md-6 register-form-bg rounded">
+				<form>
+					<div class="form-group text-center">
+						<h2 class="dark-heading b">Детайли за проект</h2>
+						<br />
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Име</label>
+						<input asp-for="Name" class="form-control dark-heading" readonly/>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Описание</label>
+						<textarea asp-for="Description" class="form-control" readonly/>@Model.Description</textarea>
+					</div>
+					<div class="form-group" id="teamsDiv">
+						<label class="control-label dark-heading">Екипи</label>
+						@if (Model.Teams is not null)
+						{
+							@foreach (var team in Model.Teams)
+							{
+								<input value="@team.Name" class="form-control dark-heading" readonly />
+							}
+						}
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+	function GetMoreTeams() {
+		var myDiv = document.getElementById("teamsDiv");
+
+		var selectList = document.createElement("select");
+		selectList.setAttribute("id", "mySelect");
+		selectList.classList.add("form-control");
+		selectList.classList.add("dark-heading");
+		selectList.classList.add("pb-2");
+		myDiv.appendChild(selectList);
+
+		for (var i = 0; i < document.getElementById("firstSelect").length; i++) {
+			var option = document.createElement("option");
+			option.setAttribute("value", document.getElementById("option_" + (i + 1)).textContent);
+			option.innerHTML = document.getElementById("option_" + (i + 1)).innerHTML;
+			selectList.appendChild(option);
+			console.log(document.getElementById("option_" + (i + 1)));
+		}
+	}
+</script>
