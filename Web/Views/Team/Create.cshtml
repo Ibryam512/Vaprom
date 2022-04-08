@@ -60,20 +60,9 @@
 <script>
 	function GetMoreDevelopers() {
 		var myDiv = document.getElementById("developersDiv");
-
+		var mySelect = document.getElementById("developerSelect");
 		var selectList = document.createElement("select");
-		selectList.setAttribute("id", "mySelect");
-		selectList.classList.add("form-control");
-		selectList.classList.add("dark-heading");
-		selectList.classList.add("pb-2");
+		selectList=mySelect.cloneNode(true);
 		myDiv.appendChild(selectList);
-
-		for (var i = 0; i < document.getElementById("developerSelect").length; i++) {
-			var option = document.createElement("option");
-			option.setAttribute("value", document.getElementById("option_" + (i + 1)).textContent);
-			option.innerHTML = document.getElementById("option_" + (i + 1)).innerHTML;
-			selectList.appendChild(option);
-			console.log(document.getElementById("option_" + (i + 1)));
-		}
 	}
 </script>
