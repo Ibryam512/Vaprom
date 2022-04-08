@@ -14,7 +14,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Web.Services;
 using Web.Services.Interfaces;
-using MudBlazor.Services;
 using Repositories.Mapper;
 using AutoMapper;
 
@@ -35,7 +34,6 @@ namespace VacationManager.Web
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddMudServices();
 
             //Repositories
             services.AddScoped<IRoleRepository, RoleRepository>();
@@ -50,6 +48,7 @@ namespace VacationManager.Web
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IVacationService, VacationService>();
             services.AddScoped<IVacationDocumentService, VacationDocumentService>();
 

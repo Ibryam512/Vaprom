@@ -30,6 +30,7 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Search(RoleSearch model)
         {
+			model.Roles = this._roleService.GetRoles();
 			if(model.Name is not null)
             {
 				model.Roles = model.Roles.Where(x => x.Name.Contains(model.Name)).ToList();
