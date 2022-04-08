@@ -1,4 +1,5 @@
 using Models;
+using Models.Enums;
 using Moq;
 using NUnit.Framework;
 using Repositories.Interfaces;
@@ -24,7 +25,7 @@ namespace UnitTests.Services
             {
                 Id = "sampleId",
                 ToDate = DateTime.Now,
-                IsApproved = false
+                Status = Models.Enums.ApprovalStatus.Awaiting
             };
 
             //Тази колекция служи за "заместител" на тази, която бива върната при достъпа на метода VacationRepository.GetVacations()
@@ -92,7 +93,7 @@ namespace UnitTests.Services
             Assert.IsNotNull(vacation);
             Assert.IsInstanceOf<Vacation>(vacation);
             Assert.That(vacation, Is.TypeOf<Vacation>());
-            Assert.That(vacation.IsApproved, Is.EqualTo(false));
+            Assert.That(vacation.Status, Is.EqualTo(ApprovalStatus.Awaiting));
         }
 
         [Test]
@@ -104,7 +105,7 @@ namespace UnitTests.Services
             Assert.IsInstanceOf<Vacation>(vacation);
             Assert.IsNotNull(vacation);
             Assert.That(vacation, Is.TypeOf<Vacation>());
-            Assert.That(vacation.IsApproved, Is.EqualTo(true));
+            Assert.That(vacation.Status, Is.EqualTo(ApprovalStatus.Approved));
         }
 
         [Test]

@@ -13,7 +13,7 @@ namespace ViewModels.DTO
 
 		public bool IsHalfDay { get; set; }
 
-		public bool IsApproved { get; set; }
+		public ApprovalStatus Status { get; set; }
 
 		public string ApplicantUsername { get; set; }
 
