@@ -191,6 +191,12 @@ input[type=checkbox] {
 	margin-left: 7px;
 }
 
+.normal-text {
+	color: #303C6C;
+	font-family: Montserrat;
+}
+
+
 /*end of new style*/
 
 .resize {
@@ -214,11 +220,6 @@ input[type=checkbox] {
 .normal-heading {
 	color: #006A7A;
 	font-weight: bold;
-}
-
-.normal-text {
-	color: #006A7A;
-	font-family: Bahnschrift;
 }
 
 .small-padding {
