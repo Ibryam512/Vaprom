@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using Web.Services;
 using Web.Services.Interfaces;
 using MudBlazor.Services;
+using Repositories.Mapper;
+using AutoMapper;
 
 namespace VacationManager.Web
 {
@@ -39,10 +41,13 @@ namespace VacationManager.Web
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ILoginRegisterRepository, LoginRegisterRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            
             services.AddScoped<IVacationRepository, VacationRepository>();
-
+            
             //Services
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IVacationDocumentService, VacationDocumentService>();
@@ -50,6 +55,8 @@ namespace VacationManager.Web
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("IbryamConnection")));
+            MapperConfiguration mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile())); 
+            services.AddSingleton(mapperConfig.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

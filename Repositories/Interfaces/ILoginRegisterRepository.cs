@@ -10,7 +10,7 @@ namespace Repositories.Interfaces
     public interface ILoginRegisterRepository
     {
         void Login(string username, string password);
-        void Register(string username, string password, string firstName, string lastName);
+        void Register(User user);
         void ChangePassword(string username, string newPassword);
 
         
