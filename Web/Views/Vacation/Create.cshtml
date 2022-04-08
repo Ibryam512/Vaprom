@@ -4,7 +4,7 @@
 	<div class="container pb-5">
 		<div class="row justify-content-center lower">
 			<div class="col-md-6 register-form-bg rounded">
-				<form asp-action="Login" asp-controller="User" method="post">
+				<form asp-action="Create" asp-controller="Vacation" method="post">
 					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 					<div class="form-group text-center">
 						<h2 class="dark-heading b">Заявка за отпуск</h2>
@@ -13,19 +13,19 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label dark-heading">Име</label>
-						<input class="form-control dark-heading" placeholder="Logged.User FirstName" readonly>
+						<input class="form-control dark-heading" asp-for="ApplicantName" readonly>
 					</div>
 					<div class="form-group">
 						<label class="control-label dark-heading">Фамилия</label>
-						<input class="form-control dark-heading" placeholder="Logged.User LastName" readonly>
+						<input class="form-control dark-heading" asp-for="ApplicantSurname" readonly>
 					</div>
 					<div class="form-group">
 						<label class="control-label dark-heading">Екип</label>
-						<input class="form-control dark-heading" placeholder="Logged.User Team" readonly>
+						<input class="form-control dark-heading" asp-for="ApplicantTeam" readonly>
 					</div>
 					<div class="form-group">
 						<label class="control-label dark-heading">Вид отпуск</label>
-						<select class="form-control dark-heading" onchange="AddSickLeave()">
+						<select class="form-control dark-heading" onchange="AddSickLeave()" asp-for="VacationType">
 							@foreach (Models.Enums.VacationType vacation in Enum.GetValues(typeof(Models.Enums.VacationType)))
 							{
 								<option id="@vacation">@vacation</option>
@@ -40,7 +40,7 @@
 					<div class="form-group big-checkbox" id="halfDay">
 						<div class="form-check custom-checkbox">
 							<input class="form-check-input custom-control-input" type="checkbox" value="" id="flexCheckDefault">
-							<label class="form-check-label dark-heading custom-control-label" for="flexCheckDefault">
+							<label class="form-check-label dark-heading custom-control-label" for="flexCheckDefault" asp-for="IsHalfDay">
 								 Половин ден отпуск
 							</label>
 						</div>
@@ -49,11 +49,11 @@
 						<div class="row">
 							<div class="col-md">
 								<label>От:</label>
-								<input type="date" autocomplete="off" id="begin" class="form-control" placeholder="yyyy-mm-dd" />
+								<input type="date" autocomplete="off" id="begin" class="form-control" placeholder="yyyy-mm-dd" asp-for="FromDate"/>
 							</div>
 							<div class="col-md">
 								<label>До:</label>
-								<input type="date" autocomplete="off" id="begin" class="form-control" placeholder="yyyy-mm-dd" />
+								<input type="date" autocomplete="off" id="begin" class="form-control" placeholder="yyyy-mm-dd" asp-for="ToDate" />
 							</div>
 						</div>
 					</div>

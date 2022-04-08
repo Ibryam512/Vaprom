@@ -36,6 +36,7 @@ namespace VacationManager.Web
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IVacationRepository, VacationRepository>();
 
             //Services
             services.AddScoped<ITeamService, TeamService>();
