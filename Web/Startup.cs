@@ -40,6 +40,7 @@ namespace VacationManager.Web
 
             //Services
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IVacationDocumentService, VacationDocumentService>();
 
             services.AddDbContext<VacationManagerDbContext>(options =>
