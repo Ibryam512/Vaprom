@@ -29,6 +29,7 @@ namespace Web.Controllers
 			this._vacationService = vacationService ?? throw new ArgumentNullException(nameof(vacationService));
 			this._documentService = documentService ?? throw new ArgumentNullException(nameof(documentService));
 			this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+			this._webHostEnv = webHostEnvironment;
 
 			vacationTypes.Add("Болничен", VacationType.Sick);
 			vacationTypes.Add("Платен", VacationType.Paid);
@@ -74,7 +75,7 @@ namespace Web.Controllers
 				{
 					model.File.CopyTo(fileStream);
 				}
-				vacation.FilePath = filePathern;
+				vacation.FilePath = Path.Combine("Files", fileName);
 			}
 			else
             {
@@ -168,13 +169,12 @@ namespace Web.Controllers
         {
 			var vacation = this._vacationService.GetVacation(id);
             this._documentService.GenerateDocument(Logged.User, vacation);
-
-            string path = Path.Combine("Files/") + fileName;
-
+            string path = Path.Combine(_webHostEnv.WebRootPath,"Files",fileName);
+			
             byte[] bytes = System.IO.File.ReadAllBytes(path);
             System.IO.File.Delete(path);
  
-            return File(bytes, "application/pdf", "document.pdf");
+            return File(bytes, "application/octet-stream", "document.docx");
         }
 	}
 }
