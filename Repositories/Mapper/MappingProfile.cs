@@ -2,8 +2,6 @@
 using Models;
 using ViewModels.DTO;
 using ViewModels.Input;
-using Repositories.Helpers;
-using System;
 
 namespace Repositories.Mapper
 {
@@ -27,5 +25,6 @@ namespace Repositories.Mapper
 			CreateMap<VacationViewModel, Vacation>()
 				.ForMember(vacation => vacation.CreationDate, opt => opt.MapFrom(src => DateTime.Now)).ReverseMap();
 		}
+		
 	}
 }
