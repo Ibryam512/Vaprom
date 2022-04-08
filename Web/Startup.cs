@@ -41,13 +41,17 @@ namespace VacationManager.Web
             services.AddScoped<ILoginRegisterRepository, LoginRegisterRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             
-
             //Services
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IUserService, UserService>();
+
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("IbryamConnection")));
-            MapperConfiguration mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile())); services.AddSingleton(mapperConfig.CreateMapper());
+            MapperConfiguration mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile())); 
+            services.AddSingleton(mapperConfig.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

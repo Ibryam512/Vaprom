@@ -55,7 +55,6 @@ namespace Repositories
 
         public void Register(User user)
         {
-            user = new User();
             if(_context.Users.Any(x=>x.UserName==user.UserName))
             {
                 throw new ArgumentException("Потребител със същото име вече съществува");

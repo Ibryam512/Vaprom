@@ -1,26 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ViewModels.Input;
-using Repositories.Interfaces;
+﻿using AutoMapper;
+using DataAccess;
+using Microsoft.AspNetCore.Mvc;
+using Models;
 using Repositories.Helpers;
+using Repositories.Interfaces;
+using Repositories.Mapper;
 using System;
 using System.Linq;
-using DataAccess;
-using AutoMapper;
-using Repositories.Mapper;
-using Models;
+using ViewModels.Input;
+using Web.Services.Interfaces;
 
 namespace Web.Controllers
 {
 	public class UserController : Controller
 	{
 		private ILoginRegisterRepository loginRegisterRepository;
-		private VacationManagerDbContext vacationManagerDbContext;
+		private IRoleService roleService;
 		private IMapper mappingProfile;
-		public UserController(IMapper _mappingProfile, ILoginRegisterRepository _loginRegisterRepository, VacationManagerDbContext _vacationManagerDbContext)
+		public UserController(IMapper _mappingProfile, ILoginRegisterRepository _loginRegisterRepository, IRoleService _roleService)
         {
 			this.mappingProfile = _mappingProfile;
 			this.loginRegisterRepository = _loginRegisterRepository;
-			this.vacationManagerDbContext = _vacationManagerDbContext;
+			this.roleService = _roleService;
         }
 		[HttpGet]
 		public IActionResult Register()
@@ -41,6 +42,8 @@ namespace Web.Controllers
 				}
 
 				User user = this.mappingProfile.Map<User>(model);
+				var roles = this.roleService.GetRoles();
+				user.Role = roles.SingleOrDefault(x => x.Name == model.RoleName);
 				try
 				{
 					loginRegisterRepository.Register(user);
