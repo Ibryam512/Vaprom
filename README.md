@@ -21,7 +21,6 @@ Or just download the .zip file in the **Code** section
 * AsposePdf - [AsposePdf](https://blog.aspose.com/2020/12/02/create-pdf-files-using-csharp/).
 * HTML, CSS, JS
 * Blazor - [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor).
-* MudBlazor - [MudBlazor](https://mudblazor.com).
 * Bootstrap - [Bootstrap](https://getbootstrap.com).
 * JQuery - [JQuery](https://jquery.com).
 * NUnit - [NUnit](https://nunit.org).
