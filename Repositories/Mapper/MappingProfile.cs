@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModels.DTO;
+using ViewModels.Input;
 
 namespace Repositories.Mapper
 {
@@ -13,6 +14,7 @@ namespace Repositories.Mapper
 	{
 		public MappingProfile()
 		{
+			CreateMap<Role, EditRoleViewModel>().ReverseMap();
 			CreateMap<Project, ProjectDTO>().ReverseMap();
 			CreateMap<Role, RoleDTO>().ReverseMap();
 			CreateMap<Team, TeamDTO>().ReverseMap();
