@@ -196,6 +196,33 @@ input[type=checkbox] {
 	font-family: Montserrat;
 }
 
+.filter-heading {
+	background-color: #303C6C;
+	border-bottom: 50px;
+}
+
+.table thead th{
+	border-bottom: none !important;
+}
+
+.table td, .table th{
+	border-top: none !important;
+}
+
+.result-table {
+	background-color: #D5DBF2;
+}
+
+svg.edit-delete {
+	width: 40px !important;
+	height: 40px !important;
+	padding: 5px;
+}
+
+	svg.edit-delete :hover {
+		fill: #FFCC48;
+		cursor: pointer;
+	}
 
 /*end of new style*/
 

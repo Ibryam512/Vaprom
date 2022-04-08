@@ -24,7 +24,7 @@ namespace Web.Services
 
         public void ApproveVacation(Vacation vacation)
         {
-            vacation.IsApproved = true;
+            vacation.Status = Models.Enums.ApprovalStatus.Approved;
             this._vacationRepository.EditVacation(vacation);
         }
 

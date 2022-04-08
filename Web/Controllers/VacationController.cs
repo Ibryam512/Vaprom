@@ -17,7 +17,7 @@ namespace Web.Controllers
 	{
 		private IVacationRepository _vacation;
 		private Dictionary<string, VacationType> vacationTypes = new Dictionary<string, VacationType>();
-    private readonly IVacationDocumentService _documentService;
+		private readonly IVacationDocumentService _documentService;
 
 
 		public VacationController(IVacationRepository vacation, IVacationDocumentService documentService)
@@ -27,7 +27,7 @@ namespace Web.Controllers
 			vacationTypes.Add("Платен", VacationType.Paid);
 			vacationTypes.Add("Неплатен", VacationType.Unpaid);
       
-      this._documentService = documentService ?? throw new ArgumentNullException(nameof(documentService));
+			this._documentService = documentService ;
 		}
 
 		[HttpGet]
@@ -60,7 +60,7 @@ namespace Web.Controllers
 				VacationType = this.vacationTypes[model.VacationType],
 				FromDate = model.FromDate,
 				ToDate = model.ToDate,
-				IsApproved = false,
+				Status = ApprovalStatus.Awaiting,
 				IsHalfDay = model.IsHalfDay,
 				ApplicantUsername = model.ApplicantUsername,
 				FilePath = model.FilePath

@@ -21,7 +21,7 @@ namespace ViewModels.Input
 		public string LastName { get; set; }
 
 		[Required(ErrorMessage = "Ролята е задължителна")]
-		public RoleDTO Role { get; set; }
+		public string RoleName { get; set; }
 
 		public TeamDTO Team { get; set; }
 	}

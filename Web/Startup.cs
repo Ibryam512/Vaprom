@@ -14,6 +14,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Web.Services;
 using Web.Services.Interfaces;
+using MudBlazor.Services;
+using Repositories.Mapper;
+using AutoMapper;
 
 namespace VacationManager.Web
 {
@@ -30,21 +33,30 @@ namespace VacationManager.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+            services.AddMudServices();
 
             //Repositories
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ILoginRegisterRepository, LoginRegisterRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            
             services.AddScoped<IVacationRepository, VacationRepository>();
-
+            
             //Services
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IVacationDocumentService, VacationDocumentService>();
 
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("IbryamConnection")));
+            MapperConfiguration mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile())); 
+            services.AddSingleton(mapperConfig.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +81,8 @@ namespace VacationManager.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ViewModels.DTO;
 using ViewModels.Input;
 
@@ -14,12 +9,22 @@ namespace Repositories.Mapper
 	{
 		public MappingProfile()
 		{
-			CreateMap<Role, EditRoleViewModel>().ReverseMap();
-			CreateMap<Project, ProjectDTO>().ReverseMap();
-			CreateMap<Role, RoleDTO>().ReverseMap();
-			CreateMap<Team, TeamDTO>().ReverseMap();
-			CreateMap<User, UserDTO>().ReverseMap();
-			CreateMap<Vacation, VacationDTO>().ReverseMap();
-		}	
+			//Models -> DTOs
+			CreateMap<Project, ProjectDTO>();
+			CreateMap<Role, RoleDTO>();
+			CreateMap<Team, TeamDTO>();
+			CreateMap<User, UserDTO>();
+			CreateMap<Vacation, VacationDTO>();
+
+			//ViewModels -> Models
+			CreateMap<ProjectViewModel, Project>();
+			CreateMap<RoleViewModel, Role>();
+			CreateMap<TeamViewModel, Team>();
+			CreateMap<RegisterUserViewModel, User>()
+				.ForMember(user => user.PasswordHash, opt => opt.MapFrom(src => Hasher.Hash(src.Password)));
+			CreateMap<VacationViewModel, Vacation>()
+				.ForMember(vacation => vacation.CreationDate, opt => opt.MapFrom(src => DateTime.Now));
+		}
+		
 	}
 }
