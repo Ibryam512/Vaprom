@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories.Interfaces;
 using Web.Services.Interfaces;
@@ -16,9 +17,9 @@ namespace Web.Services
             this._vacationRepository = vacationRepository ?? throw new ArgumentNullException(nameof(vacationRepository));
         }
 
-        public List<Vacation> GetVacations() => this._vacationRepository.GetVacations().ToList();
+        public List<Vacation> GetVacations() => this._vacationRepository.GetVacations().Include(x => x.Applicant).ToList();
 
-        public Vacation GetVacation(string id) => this._vacationRepository.GetVacation(id);
+        public Vacation GetVacation(string id) => GetVacations().Find(x => x.Id == id);
 
         public void AddVacation(Vacation vacation) => this._vacationRepository.AddVacation(vacation);
 

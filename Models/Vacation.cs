@@ -11,6 +11,7 @@ namespace Models
         public DateTime CreationDate { get; set; }
         public bool IsHalfDay { get; set; }
         public ApprovalStatus Status { get; set; }
+        public string ApplicantId { get; set; }
         public User Applicant { get; set; }
         public string? FilePath { get; set; }
     }

@@ -16,6 +16,12 @@ namespace ViewModels.DTO
 		public ApprovalStatus Status { get; set; }
 
 		public string ApplicantUsername { get; set; }
+		
+		public string ApplicantName { get; set; }
+
+		public string ApplicantSurname { get; set; }
+
+		public string ApplicantTeam { get; set; }
 
 		public string FilePath { get; set; }
 	}
