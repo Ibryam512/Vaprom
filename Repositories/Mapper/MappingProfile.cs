@@ -2,7 +2,8 @@
 using Models;
 using ViewModels.DTO;
 using ViewModels.Input;
-
+using Repositories.Helpers;
+using System;
 namespace Repositories.Mapper
 {
 	public class MappingProfile : Profile
