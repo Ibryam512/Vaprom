@@ -4,10 +4,12 @@ using Repositories.Helpers;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ViewModels.DTO;
 using ViewModels.Input;
+using Web.Services.Interfaces;
 
 namespace Web.Controllers
 {
@@ -15,16 +17,26 @@ namespace Web.Controllers
 	{
 		private IVacationRepository _vacation;
 		private Dictionary<string, VacationType> vacationTypes = new Dictionary<string, VacationType>();
+    private readonly IVacationDocumentService _documentService;
 
-		public VacationController(IVacationRepository vacation)
+
+		public VacationController(IVacationRepository vacation, IVacationDocumentService documentService)
 		{
 			this._vacation = vacation;
 			vacationTypes.Add("Болничен", VacationType.Sick);
 			vacationTypes.Add("Платен", VacationType.Paid);
 			vacationTypes.Add("Неплатен", VacationType.Unpaid);
+      
+      this._documentService = documentService ?? throw new ArgumentNullException(nameof(documentService));
 		}
 
 		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
+    
+    [HttpGet]
 		public IActionResult Create()
 		{
 			VacationViewModel model = new VacationViewModel
@@ -72,5 +84,18 @@ namespace Web.Controllers
 
 			return View(model);
 		}
+    
+		public FileResult DownloadFile(string fileName)
+        {
+			//когато е готов LoggedUser-а ще се махне коментара
+            //this._documentService.GenerateDocument();
+
+            string path = Path.Combine("Files/") + fileName;
+
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+            System.IO.File.Delete(path);
+ 
+            return File(bytes, "application/pdf", "document.pdf");
+        }
 	}
 }
