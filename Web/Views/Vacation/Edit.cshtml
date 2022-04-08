@@ -1,0 +1,91 @@
+﻿@model ViewModels.Input.VacationViewModel
+
+<body class="bg-orange">
+	<div class="container pb-5">
+		<div class="row justify-content-center lower">
+			<div class="col-md-6 register-form-bg rounded">
+				<form asp-action="Edit" asp-controller="Vacation" method="post">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="form-group text-center">
+						<h2 class="dark-heading b">Заявка за отпуск</h2>
+						<br />
+						<div asp-validation-summary="All" class="text-danger"></div>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Име</label>
+						<input class="form-control dark-heading" asp-for="ApplicantName" readonly>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Фамилия</label>
+						<input class="form-control dark-heading" asp-for="ApplicantSurname" readonly>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Екип</label>
+						<input class="form-control dark-heading" asp-for="ApplicantTeam" readonly>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Вид отпуск</label>
+						<select class="form-control dark-heading" onchange="AddSickLeave()" asp-for="VacationType">
+							@foreach (Models.Enums.VacationType vacation in Enum.GetValues(typeof(Models.Enums.VacationType)))
+							{
+								<option id="@vacation">@vacation</option>
+							}
+						</select>
+					</div>
+					<div class="form-group" id="file">
+						<label asp-for="File" class="control-label dark-heading">Болничен лист</label>
+						<br>
+						<input asp-for="File" />
+					</div>
+					<div class="form-group big-checkbox" id="halfDay">
+						<div class="form-check custom-checkbox">
+							<input class="form-check-input custom-control-input" type="checkbox" value="" id="flexCheckDefault">
+							<label class="form-check-label dark-heading custom-control-label" for="flexCheckDefault" asp-for="IsHalfDay">
+								Половин ден отпуск
+							</label>
+						</div>
+					</div>
+					<div class="dates">
+						<div class="row">
+							<div class="col-md">
+								<label>От:</label>
+								<input type="date" autocomplete="off" id="begin" class="form-control" placeholder="yyyy-mm-dd" asp-for="FromDate" />
+							</div>
+							<div class="col-md">
+								<label>До:</label>
+								<input type="date" autocomplete="off" id="begin" class="form-control" placeholder="yyyy-mm-dd" asp-for="ToDate" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group align-items-center text-center">
+						<input type="submit" id="register" value="Подай" class="btn btn-lg dark-button rounded" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+	document.getElementById("Sick").innerText = "Болничен";
+	document.getElementById("Paid").innerText = "Платен";
+	document.getElementById("Unpaid").innerText = "Неплатен";
+
+	function AddSickLeave() {
+		if (document.getElementById('Sick').selected == true) {
+			document.getElementById('file').style.display = "inline";
+			document.getElementById('halfDay').style.display = "none";
+		}
+		else {
+			document.getElementById('file').style.display = "none";
+			document.getElementById('halfDay').style.display = "inline";
+		}
+	}
+
+	$(function () {
+		$('.dates #begin').datepicker({
+			'format': 'yyyy-mm-dd',
+			'autoclose': true
+		});
+	});
+</script>

@@ -56,5 +56,21 @@ namespace Web.Controllers
 
 			return View();
 		}
+
+		[HttpGet]
+		public IActionResult Edit()
+		{
+			VacationViewModel model = new VacationViewModel
+			{
+				ApplicantUsername = Logged.User.UserName,
+				ApplicantName = Logged.User.FirstName,
+				ApplicantSurname = Logged.User.LastName,
+				ApplicantTeam = Logged.User.Team.Name,
+				FromDate = DateTime.Today,
+				ToDate = DateTime.Today
+			};
+
+			return View(model);
+		}
 	}
 }
