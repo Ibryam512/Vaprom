@@ -46,8 +46,13 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Search(VacationSearch search)
         {
-			search.Result
-        }
+			if (search.FromDate != null)
+            {
+				search.Result = search.Result.Where(x => x.CreationDate < search.FromDate).ToList();
+			}
+			return View("Index", search);
+
+		}
     
     	[HttpGet]
 		public IActionResult Create()

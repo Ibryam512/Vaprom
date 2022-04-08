@@ -8,7 +8,7 @@ namespace Models.SearchModel
 {
     public class VacationSearch
     {
-        DateTime FromDate { get; set; }
+        public DateTime FromDate { get; set; }
         public List<Vacation> Result { get; set; }
     }
 }
