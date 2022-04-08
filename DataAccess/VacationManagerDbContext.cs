@@ -16,8 +16,20 @@ namespace DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
+                .HasOne(u => u.Role);
+
+            modelBuilder.Entity<User>()
                .HasOne(u => u.Team)
-               .WithMany(t => t.Developers);
+               .WithMany(t => t.Developers)
+               .HasForeignKey(u => u.TeamId);
+
+            modelBuilder.Entity<Team>()
+                .HasOne(t => t.Project)
+                .WithMany(p => p.Teams)
+                .HasForeignKey(t => t.ProjectId);
+
+            modelBuilder.Entity<Vacation>()
+                .HasOne(v => v.Applicant);
 
             modelBuilder.Entity<Role>().HasData(
                new Role()

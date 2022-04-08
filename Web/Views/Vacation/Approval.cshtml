@@ -1,4 +1,4 @@
-﻿@model ViewModels.Input.VacationViewModel
+﻿@model ViewModels.DTO.VacationDTO
 
 <body class="bg-orange">
 	<div class="container pb-5">
@@ -27,7 +27,7 @@
 						<label class="control-label dark-heading">Вид отпуск</label>
 						<input class="form-control dark-heading" id="@Model.VacationType" asp-for="VacationType" readonly>
 					</div>
-					@if (Model.VacationType == "Sick")
+					@if (Model.VacationType == Models.Enums.VacationType.Sick)
 					{
 						<div class="form-group">
 							<label class="control-label dark-heading">Болничен лист</label>
