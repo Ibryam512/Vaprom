@@ -2,6 +2,7 @@
 using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.SearchModel;
 using Repositories.Helpers;
 using Repositories.Interfaces;
 using Repositories.Mapper;
@@ -17,12 +18,53 @@ namespace Web.Controllers
 		private ILoginRegisterRepository loginRegisterRepository;
 		private IRoleService roleService;
 		private IMapper mappingProfile;
-		public UserController(IMapper _mappingProfile, ILoginRegisterRepository _loginRegisterRepository, IRoleService _roleService)
+		private ITeamService teamService;
+		private IUserService userService;
+
+		public UserController(IMapper _mappingProfile, ILoginRegisterRepository _loginRegisterRepository, IRoleService _roleService, 
+			ITeamService _teamService, IUserService _userService)
         {
 			this.mappingProfile = _mappingProfile;
 			this.loginRegisterRepository = _loginRegisterRepository;
 			this.roleService = _roleService;
+			this.teamService = _teamService;
+			this.userService = _userService;
         }
+
+		[HttpGet]
+		public IActionResult Index()
+		{
+			UserSearch search = new UserSearch();
+			search.Results = this.userService.GetUsers();
+			return View(search);
+		}
+
+		[HttpGet]
+		public IActionResult Search(UserSearch search)
+		{
+			search.Results = this.userService.GetUsers();
+			if(search.FirstName is not null)
+			{
+				search.Results = search.Results.Where(x => x.FirstName.Contains(search.FirstName)).ToList();
+			}
+			if (search.LastName is not null)
+			{
+				search.Results = search.Results.Where(x => x.LastName.Contains(search.LastName)).ToList();
+			}
+			if(search.Role != "Избери роля...")
+			{
+				search.Results = search.Results.Where(x => x.Role.Name == search.Role).ToList();	
+			}
+			if(search.Team != "Избери екип...")
+			{
+				search.Results = search.Results.Where(x => x.Team.Name == search.Team).ToList();
+			}
+
+			return View("Index", search);
+		}
+
+		#region Register
+
 		[HttpGet]
 		public IActionResult Register()
 		{
@@ -30,6 +72,7 @@ namespace Web.Controllers
 
 			return View(model);
 		}
+
 		[HttpPost]
 		public IActionResult Register(RegisterUserViewModel model)
 		{
@@ -44,6 +87,9 @@ namespace Web.Controllers
 				User user = this.mappingProfile.Map<User>(model);
 				var roles = this.roleService.GetRoles();
 				user.Role = roles.SingleOrDefault(x => x.Name == model.RoleName);
+
+				var teams = this.teamService.GetTeams();
+				user.Team = teams.SingleOrDefault(x => x.Name == model.TeamName);
 				try
 				{
 					loginRegisterRepository.Register(user);
@@ -63,6 +109,10 @@ namespace Web.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+		#endregion
+
+		#region Login
+
 		[HttpGet]
 		public IActionResult Login()
 		{
@@ -70,6 +120,7 @@ namespace Web.Controllers
 
 			return View(model);
 		}
+
 		[HttpPost]
 		public IActionResult Login(LoginUserViewModel model)
 		{
@@ -94,6 +145,8 @@ namespace Web.Controllers
 
 			return RedirectToAction("Index", "Home");
 		}
+
+		#endregion
 
 		[HttpGet]
 		public IActionResult Profile()
