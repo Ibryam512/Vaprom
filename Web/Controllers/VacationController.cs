@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Enums;
+using Models.SearchModel;
 using Repositories.Helpers;
 using Repositories.Interfaces;
 using System;
@@ -39,7 +40,19 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Index()
 		{
-			return View();
+			VacationSearch search = new VacationSearch();
+			search.Result = _vacationService.GetVacations();
+			return View(search);
+		}
+		[HttpGet]
+		public IActionResult Search(VacationSearch search)
+        {
+			if (search.FromDate != null)
+            {
+				search.Result = search.Result.Where(x => x.CreationDate < search.FromDate).ToList();
+			}
+			return View("Index", search);
+
 		}
     
     	[HttpGet]

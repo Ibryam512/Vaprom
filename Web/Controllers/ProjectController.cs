@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.SearchModel;
 using Repositories;
 using Repositories.Interfaces;
 using System;
@@ -14,6 +15,7 @@ namespace Web.Controllers
 {
 	public class ProjectController : Controller
 	{
+
 		private readonly IProjectService _projectService;
 		private readonly IMapper _mapper;
 
@@ -26,7 +28,25 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Index()
 		{
-			return View();
+			ProjectSearch search = new ProjectSearch();
+			search.Results = this._projects.GetProjects();
+			return View(search);
+		}
+		[HttpGet]
+		public IActionResult Search(ProjectSearch search)
+        {
+			search.Results = this._projects.GetProjects();
+			if (search.Name is not null)
+            {
+				search.Results=search.Results.Where(x=>x.Name.Contains(search.Name)).ToList();
+            }
+
+			if(search.Description is not null)
+            {
+				search.Results = search.Results.Where(x => x.Description.Contains(search.Description)).ToList();
+			}
+
+			return View("Index", search);
 		}
 
 		[HttpGet]

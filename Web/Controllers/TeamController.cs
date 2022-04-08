@@ -10,6 +10,7 @@ namespace Web.Controllers
 {
 	public class TeamController : Controller
 	{
+
 		private IMapper _mapper;
 		private ITeamService _teamService;
 		private IUserService _userService;
@@ -22,12 +23,38 @@ namespace Web.Controllers
 			this._projectService = projectService;
 		}
 
+		#region CreateTeam
+
+
 		[HttpGet]
 		public IActionResult Index()
 		{
-			return View();
+			TeamSearch search = new TeamSearch();
+
+			search.Results = this.teamService.GetTeams();
+			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUser(x.TeamLeaderId));
+
+			return View(search);
 		}
-		#region CreateTeam
+
+		[HttpGet]
+		public IActionResult Search(TeamSearch search)
+		{
+			search.Results = this.teamService.GetTeams();
+			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUser(x.TeamLeaderId));
+
+			if (search.Name is not null)
+			{
+				search.Results = search.Results.Where(x => x.Name.Contains(search.Name)).ToList();
+			}
+			if (search.TeamLeadNames is not null)
+			{
+				search.Results = search.Results.Where(x => x.TeamLeader.FirstName.Contains(search.TeamLeadNames) || x.TeamLeader.LastName.Contains(search.TeamLeadNames)).ToList();
+			}
+
+			return View("Index", search);
+		}
+
 		[HttpGet]
 		public IActionResult Create()
 		{

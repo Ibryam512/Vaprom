@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repositories.Interfaces;
 using Repositories.Mapper;
+using Models.SearchModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 using ViewModels.Input;
 using Web.Services.Interfaces;
 
-
 namespace Web.Controllers
 {
 	public class RoleController : Controller
 	{
+
 		private IMapper _mapper;
 		private IRoleService _roleService;
 		public RoleController(IMapper mapper, IRoleService roleService)
@@ -22,12 +23,13 @@ namespace Web.Controllers
 			this._mapper = mapper;
 			this._roleService = roleService;
 		}
-
+    
 		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();
 		}
+
         #region CreateRole
         [HttpGet]
 		public IActionResult Create()
@@ -103,4 +105,24 @@ namespace Web.Controllers
 		}
         #endregion
     }
+
+		[HttpGet]
+		public IActionResult Index()
+        {
+			RoleSearch search = new RoleSearch();
+			search.Roles = this._roleService.GetRoles();
+			return View(search);
+		}
+		[HttpGet]
+		public IActionResult Search(RoleSearch model)
+        {
+			model.Roles = this._roleService.GetRoles();
+			if(model.Name is not null)
+            {
+				model.Roles = model.Roles.Where(x => x.Name.Contains(model.Name)).ToList();
+			}
+			return View("Index", model);
+		}
+	}
+
 }
