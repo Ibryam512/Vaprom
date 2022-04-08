@@ -196,6 +196,10 @@ input[type=checkbox] {
 	font-family: Montserrat;
 }
 
+.filter-table {
+	background-color: #303C6C;
+	border-bottom: 50px;
+}
 
 /*end of new style*/
 

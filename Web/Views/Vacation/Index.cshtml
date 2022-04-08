@@ -1,9 +1,12 @@
+@using Repositories.Helpers;
+@using Web.Components
+
 <body class="bg-orange">
-	<div class="container pb-5">
-		<div class="row justify-content-center lower">
-			<div class="col-md-6 register-form-bg rounded">
-				@Html.ActionLink("Download", "DownloadFile", new { fileName = "document.pdf" })
-			</div>
+	<div class="row py-5 px-4">
+		<div class="col-md-10 mx-auto">
+			<component type="typeof(VacationList)" render-mode="Server" />
 		</div>
 	</div>
 </body>
+
+<script src="_framework/blazor.server.js"></script>

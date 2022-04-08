@@ -30,6 +30,8 @@ namespace VacationManager.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
 
             //Repositories
             services.AddScoped<IRoleRepository, RoleRepository>();
@@ -40,6 +42,7 @@ namespace VacationManager.Web
 
             //Services
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IVacationDocumentService, VacationDocumentService>();
 
             services.AddDbContext<VacationManagerDbContext>(options =>
@@ -69,6 +72,8 @@ namespace VacationManager.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
