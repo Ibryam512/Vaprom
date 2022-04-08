@@ -8,7 +8,7 @@ namespace ViewModels.Input
 	public class VacationViewModel
 	{
 		[Required(ErrorMessage = "Типа на отпуската не може да е празен")]
-		public VacationType VacationType { get; set; }
+		public string VacationType { get; set; }
 		
 		[Required(ErrorMessage = "Датата за начало на отпуската е задължителна")]
 		public DateTime FromDate { get; set; }
@@ -20,8 +20,13 @@ namespace ViewModels.Input
 
 		public bool IsApproved { get; set; }
 
-		[Required(ErrorMessage = "Заявителят е задължителен")]
 		public string ApplicantUsername { get; set; }
+
+		public string ApplicantName { get; set; }
+
+		public string ApplicantSurname { get; set; }
+
+		public string ApplicantTeam { get; set; }
 
 		public string FilePath { get; set; }
 		public IFormFile File { get; set; }

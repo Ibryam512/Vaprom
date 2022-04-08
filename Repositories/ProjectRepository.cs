@@ -1,4 +1,5 @@
 ﻿using DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories.Interfaces;
 using System;
@@ -17,7 +18,7 @@ namespace Repositories
 
         public IQueryable<Project> GetProjects() => this._context.Projects.AsQueryable();
 
-        public Project GetProject(string id) => this._context.Projects.Find(id);
+        public Project GetProject(string id) => this._context.Projects.Include(x => x.Teams).SingleOrDefault(x => x.Id == id);
 
         public void AddProject(Project project)
         {

@@ -48,9 +48,6 @@ namespace VacationManager.Web
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<IVacationDocumentService, VacationDocumentService>();
 
-
-
-
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("IbryamConnection")));
