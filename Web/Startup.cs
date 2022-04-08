@@ -41,11 +41,15 @@ namespace VacationManager.Web
             services.AddScoped<ILoginRegisterRepository, LoginRegisterRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             
+            services.AddScoped<IVacationRepository, VacationRepository>();
+            
             //Services
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IVacationDocumentService, VacationDocumentService>();
 
 
-            
+
 
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
