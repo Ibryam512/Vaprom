@@ -1,0 +1,32 @@
+﻿@model ViewModels.Input.TeamViewModel
+@inject Repositories.Interfaces.ITeamRepository TeamRepo
+
+<body class="bg-orange">
+	<div class="container pb-5">
+		<div class="row justify-content-center lower">
+			<div class="col-md-6 register-form-bg rounded">
+				<form>
+					<div class="form-group text-center">
+						<h2 class="dark-heading b">Детайли за проект</h2>
+						<br />
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Име</label>
+						<input asp-for="Name" class="form-control dark-heading" readonly />
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Team Lead</label>
+						<input asp-for="TeamLeaderUsername" class="form-control" readonly />
+					</div>
+					<div class="form-group" id="teamsDiv">
+						<label class="control-label dark-heading">Разработчици</label>
+						@foreach(var dev in Model.DevelopersUsernames)
+						{
+							<input placeholder="@dev" class="form-control" readonly/>
+						}
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>

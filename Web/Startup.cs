@@ -14,9 +14,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Web.Services;
 using Web.Services.Interfaces;
+using MudBlazor.Services;
 using Repositories.Mapper;
 using AutoMapper;
-
 
 namespace VacationManager.Web
 {
@@ -33,6 +33,9 @@ namespace VacationManager.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+            services.AddMudServices();
 
             //Repositories
             services.AddScoped<IRoleRepository, RoleRepository>();
@@ -79,6 +82,8 @@ namespace VacationManager.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
