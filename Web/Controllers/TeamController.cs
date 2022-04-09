@@ -11,6 +11,7 @@ using ViewModels.Input;
 using Web.Services.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
+using Models.SearchModel;
 
 namespace Web.Controllers
 {
@@ -37,8 +38,11 @@ namespace Web.Controllers
 		{
 			TeamSearch search = new TeamSearch();
 
+
 			search.Results = this.teamService.GetTeams();
 			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUserById(x.TeamLeaderId));
+
+
 
 			return View(search);
 		}
@@ -46,8 +50,10 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Search(TeamSearch search)
 		{
+
 			search.Results = this.teamService.GetTeams();
 			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUserById(x.TeamLeaderId));
+
 
 			if (search.Name is not null)
 			{

@@ -23,15 +23,9 @@ namespace Web.Controllers
 			this._mapper = mapper;
 			this._roleService = roleService;
 		}
-    
-		[HttpGet]
-		public IActionResult Index()
-		{
-			return View();
-		}
 
-        #region CreateRole
-        [HttpGet]
+		#region CreateRole
+		[HttpGet]
 		public IActionResult Create()
 		{
 			RoleViewModel model = new RoleViewModel();
@@ -52,10 +46,10 @@ namespace Web.Controllers
 				return View(model);
 			}
 		}
-        #endregion
+		#endregion
 
-        #region EditRole
-        [HttpGet]
+		#region EditRole
+		[HttpGet]
 		[Route("post/edit/{id}")]
 		public IActionResult Edit([FromRoute] string id)
 		{
@@ -83,11 +77,11 @@ namespace Web.Controllers
 				return View(model);
 			}
 		}
-        #endregion
+		#endregion
 
-        #region DeleteRole
-        [HttpGet]
-		[Route("post/delete/{id}")]
+		#region DeleteRole
+		[HttpGet]
+		[Route("role/delete/{id}")]
 		public IActionResult Delete([FromRoute] string id)
 		{
 			if (id is null)
@@ -96,33 +90,33 @@ namespace Web.Controllers
 			}
 			Role deleteRole = _roleService.GetRole(id);
 			if (deleteRole is null)
-            {
+			{
 				return NotFound();
-            }
+			}
 			_roleService.DeleteRole(deleteRole);
 			return RedirectToAction("Index", "Role");
 
 		}
-        #endregion
-    }
+		#endregion
+
 
 		[HttpGet]
 		public IActionResult Index()
-        {
+		{
 			RoleSearch search = new RoleSearch();
 			search.Roles = this._roleService.GetRoles();
 			return View(search);
 		}
 		[HttpGet]
 		public IActionResult Search(RoleSearch model)
-        {
+		{
 			model.Roles = this._roleService.GetRoles();
-			if(model.Name is not null)
-            {
+			if (model.Name is not null)
+			{
 				model.Roles = model.Roles.Where(x => x.Name.Contains(model.Name)).ToList();
 			}
 			return View("Index", model);
 		}
 	}
-
 }
+
