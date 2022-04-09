@@ -18,7 +18,9 @@ namespace Web.Services
 
         public List<User> GetUsers() => this._userRepository.GetUsers().ToList();
 
-        public User GetUser(string id) => this._userRepository.GetUser(id);
+        public User GetUser(string username) => this._userRepository.GetUser(username);
+
+        public User GetUserById(string id) => this._userRepository.GetUserById(id);
 
         public void AddUser(User user) => this._userRepository.AddUser(user);
 
@@ -43,5 +45,5 @@ namespace Web.Services
         public void EditUser(User user) => this._userRepository.EditUser(user);
 
         public void DeleteUser(User user) => this._userRepository.DeleteUser(user);
-    }
+	}
 }

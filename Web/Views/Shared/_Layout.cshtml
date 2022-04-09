@@ -33,14 +33,17 @@
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Vacation" asp-action="Index">Отпуски</a>
 						</li>
-						<li class="nav-item" style="padding-left: 450px;">
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Роли</a>
+						</li>
+						<li class="nav-item" style="padding-left: 300px;">
 							@if (Repositories.Helpers.Logged.User is null)
 							{
 								<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Вход</a>
 							}
 							else
 							{
-								<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Здравейте, @Repositories.Helpers.Logged.User.FirstName @Repositories.Helpers.Logged.User.LastName</a>
+								<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Profile" asp-route-id="@Repositories.Helpers.Logged.User.UserName">Здравейте, @Repositories.Helpers.Logged.User.FirstName @Repositories.Helpers.Logged.User.LastName</a>
 							}
 						</li>
 					</ul>

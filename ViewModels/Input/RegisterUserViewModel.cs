@@ -22,8 +22,5 @@ namespace ViewModels.Input
 
 		[Required(ErrorMessage = "Ролята е задължителна")]
 		public string RoleName { get; set; }
-
-		[Required(ErrorMessage = "Името на екипа е задължително")]
-		public string TeamName { get; set; }
 	}
 }
