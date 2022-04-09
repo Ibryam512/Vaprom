@@ -18,7 +18,7 @@ namespace Web.Services
 
         public List<User> GetUsers() => this._userRepository.GetUsers().ToList();
 
-        public User GetUser(string id) => this._userRepository.GetUser(id);
+        public User GetUser(string username) => this._userRepository.GetUser(username);
 
         public void AddUser(User user) => this._userRepository.AddUser(user);
 
