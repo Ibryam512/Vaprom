@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.SearchModel;
+using Repositories.Helpers;
 using System.Linq;
 using ViewModels.Input;
 using Web.Services.Interfaces;
@@ -41,7 +43,7 @@ namespace Web.Controllers
 			}
 			if (search.TeamLeadNames is not null)
 			{
-				search.Results = search.Results.Where(x => x.TeamLeader.FirstName.Contains(search.TeamLeadNames) || x.TeamLeader.LastName.Contains(search.TeamLeadNames)).ToList();
+				search.Results = search.Results.Where(x => x.TeamLeader is not null && (x.TeamLeader.FirstName.Contains(search.TeamLeadNames) || x.TeamLeader.LastName.Contains(search.TeamLeadNames))).ToList();
 			}
 
 			return View("Index", search);
@@ -53,6 +55,27 @@ namespace Web.Controllers
 			TeamViewModel model = new TeamViewModel();
 
 			return View(model);
+		}
+
+		[HttpGet]
+		[Route("team/delete/{id}")]
+		public IActionResult Delete([FromRoute] string id)
+		{
+			if (Logged.CEOAuth())
+			{
+				Team team = teamService.GetTeam(id);
+				foreach (var user in userService.GetUsers())
+				{
+					if (user.TeamId == id) user.TeamId = null;
+				}
+
+				this.teamService.DeleteTeam(team);
+				return RedirectToAction("Index", "Team");
+			}
+			else
+			{
+				return Unauthorized();
+			}
 		}
 	}
 }

@@ -156,5 +156,22 @@ namespace Web.Controllers
 
 			return View(user);
 		}
+
+		[HttpGet]
+		[Route("user/delete/{username}")]
+		public IActionResult Delete([FromRoute] string username)
+		{
+			if(Logged.CEOAuth())
+			{
+				User user = userService.GetUser(username);
+
+				this.userService.DeleteUser(user);
+				return RedirectToAction("Index", "User");
+			}
+			else
+			{
+				return Unauthorized();
+			}
+		}
 	}
 }
