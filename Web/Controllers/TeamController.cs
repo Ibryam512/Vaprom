@@ -24,7 +24,7 @@ namespace Web.Controllers
 			TeamSearch search = new TeamSearch();
 
 			search.Results = this.teamService.GetTeams();
-			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUser(x.TeamLeaderId));
+			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUserById(x.TeamLeaderId));
 
 			return View(search);
 		}
@@ -33,7 +33,7 @@ namespace Web.Controllers
 		public IActionResult Search(TeamSearch search)
 		{
 			search.Results = this.teamService.GetTeams();
-			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUser(x.TeamLeaderId));
+			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUserById(x.TeamLeaderId));
 
 			if (search.Name is not null)
 			{

@@ -20,6 +20,8 @@ namespace Repositories
 
         public User GetUser(string username) => this._context.Users.Include(x => x.Team).Include(x => x.Role).FirstOrDefault(x => x.UserName == username);
 
+        public User GetUserById(string id) => this._context.Users.FirstOrDefault(x => x.Id == id);
+
         public void AddUser(User user)
         {
             this._context.Users.Add(user);
@@ -37,5 +39,5 @@ namespace Repositories
             this._context.Users.Remove(user);
             this._context.SaveChanges();
         }
-    }
+	}
 }
