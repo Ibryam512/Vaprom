@@ -1,17 +1,22 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+
 using Models.SearchModel;
 using Repositories.Helpers;
 using System.Collections.Generic;
 using System.Linq;
+
 using ViewModels.Input;
 using Web.Services.Interfaces;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Web.Controllers
 {
 	public class TeamController : Controller
 	{
+
 		private IMapper mapper;
 		private ITeamService teamService;
 		private IUserService userService;
@@ -23,6 +28,8 @@ namespace Web.Controllers
 			this.userService = userService;
 			this.projectService = projectService;
 		}
+
+		#region CreateTeam
 
 
 		[HttpGet]
@@ -59,7 +66,6 @@ namespace Web.Controllers
 		public IActionResult Create()
 		{
 			TeamViewModel model = new TeamViewModel();
-
 			return View(model);
 		}
 
@@ -80,6 +86,7 @@ namespace Web.Controllers
 				team.Developers = teamMembers;
 				team.Project = projectService.GetProjects().FirstOrDefault(x => x.Name == model.ProjectName);
 				teamService.AddTeam(team);
+
 				return RedirectToAction("Index", "Team");
 			}
 			else
@@ -109,5 +116,6 @@ namespace Web.Controllers
 				return Unauthorized();
 			}
 		}
+
 	}
 }

@@ -54,7 +54,7 @@ namespace VacationManager.Web
 
             services.AddDbContext<VacationManagerDbContext>(options =>
                options.UseSqlServer(
-                   Configuration.GetConnectionString("IbryamConnection")));
+                   Configuration.GetConnectionString("AngelConnection")));
             MapperConfiguration mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile())); 
             services.AddSingleton(mapperConfig.CreateMapper());
         }
