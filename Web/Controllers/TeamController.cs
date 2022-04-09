@@ -77,7 +77,19 @@ namespace Web.Controllers
 			}
 			else return Unauthorized();	
 		}
-
+		[HttpGet("Team/Edit/{id}")]
+		public IActionResult Edit(string id)
+        {
+			AddDeveloperViewModel model = new AddDeveloperViewModel();
+			model.TeamId = id;
+			return View(model);
+        }
+		[HttpPost]
+		public IActionResult Edit(AddDeveloperViewModel model)
+        {
+			teamService.GetTeam(model.TeamId).Developers.Add(userService.GetUsers().FirstOrDefault(x => x.UserName == model.DeveloperUsername));
+			return RedirectToAction("Index", "Team");
+        }
 		[HttpPost]
 		public IActionResult Create(TeamViewModel model)
 		{
@@ -87,11 +99,11 @@ namespace Web.Controllers
 				Team team = this.mapper.Map<Team>(model);
 				List<User> teamMembers = new List<User>();
 				User teamLeader = userService.GetUsers().FirstOrDefault(x => x.UserName == model.TeamLeaderUsername);
-				List<string> usernames = model.DevelopersUsernames.Split(' ').ToList();
-				foreach (string username in usernames)
+				//List<string> usernames = model.DevelopersUsernames.Split(' ').ToList();
+				/*foreach (string username in usernames)
 				{
 					teamMembers.Add(userService.GetUser(username));
-				}
+				}*/
 				team.TeamLeader = teamLeader;
 				team.Developers = teamMembers;
 				team.Project = projectService.GetProjects().FirstOrDefault(x => x.Name == model.ProjectName);

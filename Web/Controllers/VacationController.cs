@@ -47,10 +47,14 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Search(VacationSearch search)
         {
-			if (search.FromDate != null)
+			if (search.FromDate != default(DateTime))
             {
 				search.Result = search.Result.Where(x => x.CreationDate < search.FromDate).ToList();
 			}
+			else
+            {
+				search.Result = new List<Vacation>();
+            }
 			return View("Index", search);
 
 		}
@@ -133,7 +137,7 @@ namespace Web.Controllers
 			return RedirectToAction("Index", "Vacation");
 		}
 
-		[HttpGet("Vacation/{id}")]
+		[HttpGet("Vacation/approval/{id}")]
 		public IActionResult Approval(string id)
 		{
 			if (Logged.CEOAuth())

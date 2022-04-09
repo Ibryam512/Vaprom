@@ -95,6 +95,8 @@ namespace Web.Controllers
 				user.Role = roles.SingleOrDefault(x => x.Name == model.RoleName);
 				try
 				{
+					user.TeamId = "0";
+					user.Team = teamService.GetTeam("0");
 					loginRegisterRepository.Register(user);
 					Logged.User = user;
 				}

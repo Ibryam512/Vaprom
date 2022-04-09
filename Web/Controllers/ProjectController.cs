@@ -67,8 +67,9 @@ namespace Web.Controllers
 		public IActionResult Create(ProjectViewModel viewModel)
 		{
 			var project = this._mapper.Map<Project>(viewModel);
+			project.Teams = new List<Team>();
 			this._projectService.AddProject(project);
-			return View();
+			return RedirectToAction("Index", "Project");
 		}
 
 		[HttpGet]
@@ -102,13 +103,28 @@ namespace Web.Controllers
 			
 		}
 
-		[HttpPost]
-		public IActionResult Edit(ProjectViewModel viewModel)
+		[HttpGet("Project/Delete/{id}")]
+		public IActionResult Delete(string id)
+		{
+			if (Logged.CEOAuth())
+			{
+				_projectService.DeleteProject(_projectService.GetProject(id));
+				return RedirectToAction("Index", "Project");
+			}
+			else
+				return Unauthorized();
+
+
+		}
+
+		[HttpPost("Project/Edit/{id}")]
+		public IActionResult Edit(ProjectViewModel viewModel, string id)
 		{
 			var project = this._mapper.Map<Project>(viewModel);
+			project.Id = id;
 			this._projectService.EditProject(project);
 
-			return View();
+			return RedirectToAction("Index", "Project");
 		}
 	}
 }
