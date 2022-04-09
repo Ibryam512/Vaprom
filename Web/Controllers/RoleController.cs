@@ -54,9 +54,9 @@ namespace Web.Controllers
 		}
 		#endregion
 
-		#region EditRole
-		[HttpGet]
-		[Route("post/edit/{id}")]
+    #region EditRole
+    [HttpGet]
+		[Route("role/edit/{id}")]
 		public IActionResult Edit([FromRoute] string id)
 		{
 			if (Logged.CEOAuth())
@@ -65,22 +65,23 @@ namespace Web.Controllers
 				{
 					return NotFound();
 				}
-				EditRoleViewModel model = new EditRoleViewModel();
-				model.Id = id;
-				return View(model);
+				var role = this._roleService.GetRole(id);
+			EditRoleViewModel model = new EditRoleViewModel();
+			model.Id = id;
+			model.Name = role.Name;
+			return View(model);
 			}
 			else return Unauthorized();
-			
 		}
 
-		[HttpPost]
-		public IActionResult Edit(RoleViewModel model)
+		[HttpPost("role/edit/{id}")]
+		public IActionResult Edit(RoleViewModel model, string id)
 		{
 			if (ModelState.IsValid)
 			{
 				Role role = this._mapper.Map<Role>(model);
-				_roleService.DeleteRole(_roleService.GetRole(role.Id));
-				_roleService.AddRole(role);
+				role.Id = id;
+				_roleService.EditRole(role);
 				return RedirectToAction("Index", "Role");
 			}
 			else
@@ -113,8 +114,7 @@ namespace Web.Controllers
 			
 
 		}
-		#endregion
-
+        #endregion
 
 		[HttpGet]
 		public IActionResult Index()
@@ -123,6 +123,7 @@ namespace Web.Controllers
 			search.Roles = this._roleService.GetRoles();
 			return View(search);
 		}
+    
 		[HttpGet]
 		public IActionResult Search(RoleSearch model)
 		{
