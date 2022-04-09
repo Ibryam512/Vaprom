@@ -87,9 +87,6 @@ namespace Web.Controllers
 				User user = this.mappingProfile.Map<User>(model);
 				var roles = this.roleService.GetRoles();
 				user.Role = roles.SingleOrDefault(x => x.Name == model.RoleName);
-
-				var teams = this.teamService.GetTeams();
-				user.Team = teams.SingleOrDefault(x => x.Name == model.TeamName);
 				try
 				{
 					loginRegisterRepository.Register(user);

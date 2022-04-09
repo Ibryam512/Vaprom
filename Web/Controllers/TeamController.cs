@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.SearchModel;
 using Repositories.Helpers;
+using System.Collections.Generic;
 using System.Linq;
 using ViewModels.Input;
 using Web.Services.Interfaces;
@@ -10,13 +12,16 @@ namespace Web.Controllers
 {
 	public class TeamController : Controller
 	{
+		private IMapper mapper;
 		private ITeamService teamService;
-		public IUserService userService;
-
-		public TeamController(ITeamService _teamService, IUserService _userService)
+		private IUserService userService;
+		private IProjectService projectService;
+		public TeamController(IMapper mapper, ITeamService teamService, IUserService userService, IProjectService projectService)
 		{
-			this.teamService = _teamService;
-			this.userService = _userService;
+			this.mapper = mapper;
+			this.teamService = teamService;
+			this.userService = userService;
+			this.projectService = projectService;
 		}
 
 
@@ -49,6 +54,7 @@ namespace Web.Controllers
 			return View("Index", search);
 		}
 
+		#region CreateTeam
 		[HttpGet]
 		public IActionResult Create()
 		{
@@ -56,6 +62,32 @@ namespace Web.Controllers
 
 			return View(model);
 		}
+
+		[HttpPost]
+		public IActionResult Create(TeamViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				Team team = this.mapper.Map<Team>(model);
+				List<User> teamMembers = new List<User>();
+				User teamLeader = userService.GetUsers().FirstOrDefault(x => x.UserName == model.TeamLeaderUsername);
+				List<string> usernames = model.DevelopersUsernames.Split(' ').ToList();
+				foreach (string username in usernames)
+				{
+					teamMembers.Add(userService.GetUser(username));
+				}
+				team.TeamLeader = teamLeader;
+				team.Developers = teamMembers;
+				team.Project = projectService.GetProjects().FirstOrDefault(x => x.Name == model.ProjectName);
+				teamService.AddTeam(team);
+				return RedirectToAction("Index", "Team");
+			}
+			else
+			{
+				return View(model);
+			}
+		}
+		#endregion
 
 		[HttpGet]
 		[Route("team/delete/{id}")]
