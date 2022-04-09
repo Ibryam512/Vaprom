@@ -29,13 +29,13 @@ namespace Web.Controllers
 		public IActionResult Index()
 		{
 			ProjectSearch search = new ProjectSearch();
-			search.Results = this._projects.GetProjects();
+			search.Results = this._projectService.GetProjects();
 			return View(search);
 		}
 		[HttpGet]
 		public IActionResult Search(ProjectSearch search)
         {
-			search.Results = this._projects.GetProjects();
+			search.Results = this._projectService.GetProjects();
 			if (search.Name is not null)
             {
 				search.Results=search.Results.Where(x=>x.Name.Contains(search.Name)).ToList();

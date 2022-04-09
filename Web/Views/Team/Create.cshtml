@@ -6,7 +6,7 @@
 	<div class="container pb-5">
 		<div class="row justify-content-center lower">
 			<div class="col-md-6 register-form-bg rounded">
-				<form asp-action="Login" asp-controller="User" method="post">
+				<form asp-action="Create" asp-controller="Team" method="post">
 					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 					<div class="form-group text-center">
 						<h2 class="dark-heading b">Създай екип</h2>
@@ -20,7 +20,7 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label dark-heading">Проект</label>
-						<select class="form-control dark-heading">
+						<select class="form-control dark-heading" asp-for="ProjectName">
 							@foreach (var project in ProjectRepo.GetProjects())
 							{
 								<option>@project.Name</option>
@@ -29,27 +29,35 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label dark-heading">Team Lead</label>
-						<select class="form-control dark-heading" id="leadSelect">
+						<select class="form-control dark-heading" id="leadSelect" asp-for="TeamLeaderUsername">
 							@foreach (var teamLead in UserRepo.GetUsers().Where(x => x.Role.Name == "Team Lead"))
 							{
-								<option>@teamLead.FirstName @teamLead.LastName</option>
+								<option>@teamLead.UserName</option>
 							}
 						</select>
 					</div>
 					<div class="form-group" id="developersDiv">
-						<label class="control-label dark-heading">Екипи</label>
-						<select class="form-control dark-heading" id="developerSelect">
+						<label class="control-label dark-heading">Разработчици</label>
+						<select class="form-control dark-heading select" id="developerSelect">
 							@foreach (var developer in UserRepo.GetUsers().Where(x => x.Role.Name == "Developer"))
 							{
-								<option id="option_@developer.Id">@developer.FirstName @developer.LastName</option>
+								<option id="option_@developer.Id">@developer.UserName</option>
 							}
 						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label dark-heading">Име</label>
+						<input asp-for="DevelopersUsernames" class="form-control dark-heading" id="devs" placeholder="Въведете име на екипа..." />
+						<span asp-validation-for="DevelopersUsernames" class="text-danger"></span>
 					</div>
 					<div class="form-group align-items-center text-center">
 						<button type="button" class="btn reverse-button align-self-center" onclick="GetMoreDevelopers()" style="font-size: 15px !important;">Добави още разработчици</button>
 					</div>
 					<div class="form-group align-items-center text-center">
-						<input type="submit" id="register" value="Създай" class="btn btn-lg dark-button rounded" />
+						<input type="submit" id="register" value="Създай" onclick="AddDev()" class="btn btn-lg dark-button rounded" />
+					</div>
+					<div class="form-group align-items-center text-center">
+						<input id="register" value="Създай" onclick="AddDev()" class="btn btn-lg dark-button rounded" />
 					</div>
 				</form>
 			</div>
@@ -61,8 +69,18 @@
 	function GetMoreDevelopers() {
 		var myDiv = document.getElementById("developersDiv");
 		var mySelect = document.getElementById("developerSelect");
-		var selectList = document.createElement("select");
-		selectList=mySelect.cloneNode(true);
+
+		var selectList = mySelect.cloneNode(true);
 		myDiv.appendChild(selectList);
+	}
+
+	function AddDev() {
+		var list = document.getElementById("devs");
+		var devNames = document.getElementsByClassName("select");
+		for (var i = 0; i < priceEls.length; i++) {
+			var price = devNames[i].innerText;
+			list.innerHTML += price + " ";
+		}
+
 	}
 </script>

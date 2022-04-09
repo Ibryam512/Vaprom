@@ -1,4 +1,9 @@
-﻿<body class="bg-orange">
+﻿@using Repositories.Helpers
+@inject Web.Services.Interfaces.IVacationService service
+
+@model Models.User 
+
+<body class="bg-orange">
 	<div class="col-10 align-self-center mx-auto">
 		<div class="row py-5 px-4">
 			<div class="col-md-10 mx-auto">
@@ -7,7 +12,7 @@
 						<div class="media align-items-end profile-head">
 							<div class="profile mr-3"><img src="/images/profilePicture.svg" alt="..." width="130" class="rounded-circle mb-2 img-thumbnail"></div>
 							<div class="media-body mb-5 normal-text">
-								<h3 class="mt-0 mb-1"><span style="background-color: white; padding: 5px;"><b>First User</b></span></h3>
+								<h3 class="mt-0 mb-1"><span style="background-color: white; padding: 5px;"><b>@Model.FirstName @Model.LastName</b></span></h3>
 							</div>
 						</div>
 					</div>
@@ -18,9 +23,9 @@
 							</div>
 							<div class="container p-1">
 								<div class="p-4 my-2 rounded shadow-sm bg-light">
-									<p class="normal-text mb-0">Потребителско име: firstUser</p>
-									<p class="normal-text mb-0">Екип: firstTeam</p>
-									<p class="normal-text mb-0">Роля: firstRole</p>
+									<p class="normal-text mb-0">Потребителско име: @Model.UserName</p>
+									<p class="normal-text mb-0">Екип: @Model.Team.Name</p>
+									<p class="normal-text mb-0">Роля: @Model.Role.Name</p>
 								</div>
 							</div>
 						</div>
@@ -30,7 +35,43 @@
 							</div>
 							<div class="container p-1">
 								<div class="p-4 my-2 rounded shadow-sm bg-light">
-									<p class="normal-text mb-0">Cannot currently do</p>
+									@if (service.GetVacations().Where(x => x.Applicant == Model) is not null)
+									{
+										@foreach (var vacation in service.GetVacations().Where(x => x.Applicant == Model))
+										{
+											if (vacation.Status == Models.Enums.ApprovalStatus.Approved)
+											{
+												<div>
+													<p>@vacation.FromDate.ToShortDateString() - @vacation.ToDate.ToShortDateString()</p>
+													<div class="bg-success text-white">
+														Одобрен
+													</div>
+												</div>
+											}
+											else if (vacation.Status == Models.Enums.ApprovalStatus.Disapproved)
+											{
+												<div>
+													<p>@vacation.FromDate.ToShortDateString() - @vacation.ToDate.ToShortDateString()</p>
+													<div class="bg-danger text-white">
+														Отхвърлен
+													</div>
+												</div>
+											}
+											else
+											{
+												<div>
+													<p>@vacation.FromDate.ToShortDateString() - @vacation.ToDate.ToShortDateString()</p>
+													<div class="bg-warning text-white">
+														Изчакващ одобрение
+													</div>
+												</div>
+											}
+										}
+									}
+									else
+									{
+										<p>Служителят все още няма отпуски</p>
+									}
 								</div>
 							</div>
 						</div>
