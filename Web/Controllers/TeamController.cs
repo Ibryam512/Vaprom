@@ -30,7 +30,6 @@ namespace Web.Controllers
 			this.projectService = projectService;
 		}
 
-		#region CreateTeam
 
 
 		[HttpGet]
