@@ -63,7 +63,7 @@ namespace Web.Controllers
 				ApplicantUsername = Logged.User.UserName,
 				ApplicantName = Logged.User.FirstName,
 				ApplicantSurname = Logged.User.LastName,
-				//ApplicantTeam = Logged.User.Team.Name,
+				//ApplicantTeam = Logged.User.Team.Name ?? "No Team",
 				FromDate = DateTime.Today,
 				ToDate = DateTime.Today
 			};
@@ -112,7 +112,7 @@ namespace Web.Controllers
 				ApplicantUsername = Logged.User.UserName,
 				ApplicantName = Logged.User.FirstName,
 				ApplicantSurname = Logged.User.LastName,
-				//ApplicantTeam = Logged.User.Team.Name,
+				//ApplicantTeam = Logged.User.Team.Name ?? "No Team",
 				FromDate = vacation.FromDate,
 				ToDate = vacation.ToDate,
 				FilePath = vacation.FilePath
@@ -121,31 +121,16 @@ namespace Web.Controllers
 			return View(model);
 		}
 
-		[HttpPost]
-		public IActionResult Edit(VacationViewModel model)
+		[HttpPost("Vacation/Edit/{id}")]
+		public IActionResult Edit(VacationViewModel model, string id)
 		{
 			model.VacationType = vacationTypes[model.VacationTypeText];
 			Vacation vacation = this._mapper.Map<Vacation>(model);
-
-			if (model.File!=null)
-            {
-				string Pathern = Path.Combine(_webHostEnv.WebRootPath, "Files");
-				string fileName = Guid.NewGuid() + "-" + model.File.FileName;
-				string filePathern = Path.Combine(Pathern, fileName);
-
-				using (var fileStream = new FileStream(filePathern, FileMode.Create))
-				{
-					model.File.CopyTo(fileStream);
-				}
-				vacation.FilePath = filePathern;
-			}
-			else
-            {
-				vacation.FilePath = null;
-            }
+			vacation.Id = id;
+			vacation.ApplicantId = Logged.User.Id;
 					
 			this._vacationService.EditVacation(vacation);
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index", "Vacation");
 		}
 
 		[HttpGet("Vacation/{id}")]
@@ -156,7 +141,9 @@ namespace Web.Controllers
 			vacationDto.ApplicantUsername = vacation.Applicant.UserName;
 			vacationDto.ApplicantName = vacation.Applicant.FirstName;
 			vacationDto.ApplicantSurname = vacation.Applicant.LastName;
-			vacationDto.ApplicantTeam = vacation.Applicant.Team.Name;
+      fix/vacation-edit-and-delete
+			//vacationDto.ApplicantTeam = vacation.Applicant.Team.Name ?? "No team";
+
 
 			return View(vacationDto);
 		}
@@ -179,6 +166,23 @@ namespace Web.Controllers
 			vacation.Status = Models.Enums.ApprovalStatus.Disapproved;
 
 			return Index();
+		}
+
+		[HttpGet]
+		[Route("Vacation/Delete/{id}")]
+		public IActionResult Delete([FromRoute] string id)
+		{
+			//if (Logged.CEOAuth())
+			//{
+				Vacation vacation = this._vacationService.GetVacation(id);
+
+				this._vacationService.DeleteVacation(vacation);
+				return RedirectToAction("Index", "Vacation");
+			// }
+			// else
+			// {
+			// 	return Unauthorized();
+			// }
 		}
     
 		[Route("Vacation/{id}/Download")]
