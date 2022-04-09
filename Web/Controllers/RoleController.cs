@@ -56,26 +56,28 @@ namespace Web.Controllers
 
         #region EditRole
         [HttpGet]
-		[Route("post/edit/{id}")]
+		[Route("role/edit/{id}")]
 		public IActionResult Edit([FromRoute] string id)
 		{
 			if (string.IsNullOrEmpty(id))
 			{
 				return NotFound();
 			}
+			var role = this._roleService.GetRole(id);
 			EditRoleViewModel model = new EditRoleViewModel();
 			model.Id = id;
+			model.Name = role.Name;
 			return View(model);
 		}
 
-		[HttpPost]
-		public IActionResult Edit(RoleViewModel model)
+		[HttpPost("role/edit/{id}")]
+		public IActionResult Edit(RoleViewModel model, string id)
 		{
 			if (ModelState.IsValid)
 			{
 				Role role = this._mapper.Map<Role>(model);
-				_roleService.DeleteRole(_roleService.GetRole(role.Id));
-				_roleService.AddRole(role);
+				role.Id = id;
+				_roleService.EditRole(role);
 				return RedirectToAction("Index", "Role");
 			}
 			else
@@ -104,15 +106,7 @@ namespace Web.Controllers
 
 		}
         #endregion
-    }
 
-		[HttpGet]
-		public IActionResult Index()
-        {
-			RoleSearch search = new RoleSearch();
-			search.Roles = this._roleService.GetRoles();
-			return View(search);
-		}
 		[HttpGet]
 		public IActionResult Search(RoleSearch model)
         {
