@@ -141,7 +141,6 @@ namespace Web.Controllers
 			vacationDto.ApplicantUsername = vacation.Applicant.UserName;
 			vacationDto.ApplicantName = vacation.Applicant.FirstName;
 			vacationDto.ApplicantSurname = vacation.Applicant.LastName;
-      fix/vacation-edit-and-delete
 			//vacationDto.ApplicantTeam = vacation.Applicant.Team.Name ?? "No team";
 
 
