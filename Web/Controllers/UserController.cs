@@ -21,15 +21,15 @@ namespace Web.Controllers
 		private ITeamService teamService;
 		private IUserService userService;
 
-		public UserController(IMapper _mappingProfile, ILoginRegisterRepository _loginRegisterRepository, IRoleService _roleService, 
+		public UserController(IMapper _mappingProfile, ILoginRegisterRepository _loginRegisterRepository, IRoleService _roleService,
 			ITeamService _teamService, IUserService _userService)
-        {
+		{
 			this.mappingProfile = _mappingProfile;
 			this.loginRegisterRepository = _loginRegisterRepository;
 			this.roleService = _roleService;
 			this.teamService = _teamService;
 			this.userService = _userService;
-        }
+		}
 
 		[HttpGet]
 		public IActionResult Index()
@@ -43,7 +43,7 @@ namespace Web.Controllers
 		public IActionResult Search(UserSearch search)
 		{
 			search.Results = this.userService.GetUsers();
-			if(search.FirstName is not null)
+			if (search.FirstName is not null)
 			{
 				search.Results = search.Results.Where(x => x.FirstName.Contains(search.FirstName)).ToList();
 			}
@@ -51,11 +51,11 @@ namespace Web.Controllers
 			{
 				search.Results = search.Results.Where(x => x.LastName.Contains(search.LastName)).ToList();
 			}
-			if(search.Role != "Избери роля...")
+			if (search.Role != "Избери роля...")
 			{
-				search.Results = search.Results.Where(x => x.Role.Name == search.Role).ToList();	
+				search.Results = search.Results.Where(x => x.Role.Name == search.Role).ToList();
 			}
-			if(search.Team != "Избери екип...")
+			if (search.Team != "Избери екип...")
 			{
 				search.Results = search.Results.Where(x => x.Team.Name == search.Team).ToList();
 			}
@@ -87,9 +87,6 @@ namespace Web.Controllers
 				User user = this.mappingProfile.Map<User>(model);
 				var roles = this.roleService.GetRoles();
 				user.Role = roles.SingleOrDefault(x => x.Name == model.RoleName);
-
-				var teams = this.teamService.GetTeams();
-				user.Team = teams.SingleOrDefault(x => x.Name == model.TeamName);
 				try
 				{
 					loginRegisterRepository.Register(user);
@@ -149,9 +146,29 @@ namespace Web.Controllers
 		#endregion
 
 		[HttpGet]
-		public IActionResult Profile()
+		[Route("user/profile/{username}")]
+		public IActionResult Profile([FromRoute]string username)
 		{
-			return View();
+			User user = userService.GetUser(username);
+
+			return View(user);
+		}
+
+		[HttpGet]
+		[Route("user/delete/{username}")]
+		public IActionResult Delete([FromRoute] string username)
+		{
+			if(Logged.CEOAuth())
+			{
+				User user = userService.GetUser(username);
+
+				this.userService.DeleteUser(user);
+				return RedirectToAction("Index", "User");
+			}
+			else
+			{
+				return Unauthorized();
+			}
 		}
 	}
 }
