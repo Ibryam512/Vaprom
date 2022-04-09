@@ -70,13 +70,18 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Create()
 		{
-			TeamViewModel model = new TeamViewModel();
-			return View(model);
+			if (Logged.CEOAuth())
+			{
+				TeamViewModel model = new TeamViewModel();
+				return View(model);
+			}
+			else return Unauthorized();	
 		}
 
 		[HttpPost]
 		public IActionResult Create(TeamViewModel model)
 		{
+
 			if (ModelState.IsValid)
 			{
 				Team team = this.mapper.Map<Team>(model);
