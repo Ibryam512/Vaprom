@@ -68,9 +68,15 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Register()
 		{
-			RegisterUserViewModel model = new RegisterUserViewModel();
+			if (Logged.CEOAuth())
+			{
+				RegisterUserViewModel model = new RegisterUserViewModel();
 
-			return View(model);
+				return View(model);
+			}
+			else
+				return Unauthorized();
+			
 		}
 
 		[HttpPost]

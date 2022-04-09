@@ -136,15 +136,24 @@ namespace Web.Controllers
 		[HttpGet("Vacation/{id}")]
 		public IActionResult Approval(string id)
 		{
-			var vacation = this._vacationService.GetVacation(id);
-			var vacationDto = _mapper.Map<VacationDTO>(vacation);
-			vacationDto.ApplicantUsername = vacation.Applicant.UserName;
-			vacationDto.ApplicantName = vacation.Applicant.FirstName;
-			vacationDto.ApplicantSurname = vacation.Applicant.LastName;
-			//vacationDto.ApplicantTeam = vacation.Applicant.Team.Name ?? "No team";
-
-
-			return View(vacationDto);
+			if (Logged.CEOAuth())
+			{	
+				var vacation = this._vacationService.GetVacation(id);
+				if(vacation.Applicant.Team!=null)
+                {
+					if(vacation.Applicant.Team.TeamLeader==Logged.User)
+                    {
+						var vacationDto = _mapper.Map<VacationDTO>(vacation);
+						vacationDto.ApplicantUsername = vacation.Applicant.UserName;
+						vacationDto.ApplicantName = vacation.Applicant.FirstName;
+						vacationDto.ApplicantSurname = vacation.Applicant.LastName;
+						//vacationDto.ApplicantTeam = vacation.Applicant.Team.Name ?? "No team";
+						return View(vacationDto);
+					}
+				}
+			}
+				return Unauthorized();
+			
 		}
 
 		[HttpPost]
@@ -171,17 +180,17 @@ namespace Web.Controllers
 		[Route("Vacation/Delete/{id}")]
 		public IActionResult Delete([FromRoute] string id)
 		{
-			//if (Logged.CEOAuth())
-			//{
+			if (Logged.CEOAuth())
+			{
 				Vacation vacation = this._vacationService.GetVacation(id);
 
 				this._vacationService.DeleteVacation(vacation);
 				return RedirectToAction("Index", "Vacation");
-			// }
-			// else
-			// {
-			// 	return Unauthorized();
-			// }
+			 }
+			else
+			 {
+				return Unauthorized();
+			 }
 		}
     
 		[Route("Vacation/{id}/Download")]

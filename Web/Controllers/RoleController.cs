@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ViewModels.Input;
 using Web.Services.Interfaces;
+using Repositories.Helpers;
 
 namespace Web.Controllers
 {
@@ -28,8 +29,13 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Create()
 		{
-			RoleViewModel model = new RoleViewModel();
-			return View(model);
+			if(Logged.CEOAuth())
+            {
+				RoleViewModel model = new RoleViewModel();
+				return View(model);
+			}
+			return Unauthorized();
+			
 		}
 
 		[HttpPost]
@@ -53,15 +59,19 @@ namespace Web.Controllers
 		[Route("role/edit/{id}")]
 		public IActionResult Edit([FromRoute] string id)
 		{
-			if (string.IsNullOrEmpty(id))
+			if (Logged.CEOAuth())
 			{
-				return NotFound();
-			}
-			var role = this._roleService.GetRole(id);
+				if (string.IsNullOrEmpty(id))
+				{
+					return NotFound();
+				}
+				var role = this._roleService.GetRole(id);
 			EditRoleViewModel model = new EditRoleViewModel();
 			model.Id = id;
 			model.Name = role.Name;
 			return View(model);
+			}
+			else return Unauthorized();
 		}
 
 		[HttpPost("role/edit/{id}")]
@@ -86,17 +96,22 @@ namespace Web.Controllers
 		[Route("role/delete/{id}")]
 		public IActionResult Delete([FromRoute] string id)
 		{
-			if (id is null)
+			if (Logged.CEOAuth())
 			{
-				return NotFound();
+				if (id is null)
+				{
+					return NotFound();
+				}
+				Role deleteRole = _roleService.GetRole(id);
+				if (deleteRole is null)
+				{
+					return NotFound();
+				}
+				_roleService.DeleteRole(deleteRole);
+				return RedirectToAction("Index", "Role");
 			}
-			Role deleteRole = _roleService.GetRole(id);
-			if (deleteRole is null)
-			{
-				return NotFound();
-			}
-			_roleService.DeleteRole(deleteRole);
-			return RedirectToAction("Index", "Role");
+			else return Unauthorized();
+			
 
 		}
         #endregion

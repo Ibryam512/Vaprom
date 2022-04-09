@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.SearchModel;
 using Repositories;
+using Repositories.Helpers;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -52,9 +53,14 @@ namespace Web.Controllers
 		[HttpGet]
 		public IActionResult Create()
 		{
-			ProjectViewModel model = new ProjectViewModel();
-
-			return View(model);
+			if (Logged.CEOAuth())
+			{
+				ProjectViewModel model = new ProjectViewModel();
+				return View(model);
+			}
+			else
+				return Unauthorized();
+			
 		}
 
 		[HttpPost]
@@ -84,10 +90,16 @@ namespace Web.Controllers
 		[HttpGet("Project/Edit/{id}")]
 		public IActionResult Edit(string id)
 		{
-			var project = this._projectService.GetProject(id);
-			var projectViewModel = this._mapper.Map<ProjectViewModel>(project);
+			if (Logged.CEOAuth())
+			{
+				var project = this._projectService.GetProject(id);
+				var projectViewModel = this._mapper.Map<ProjectViewModel>(project);
+				return View(projectViewModel);
+			}
+			else
+				return Unauthorized();
 
-			return View(projectViewModel);
+			
 		}
 
 		[HttpPost]
