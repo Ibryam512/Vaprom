@@ -148,7 +148,7 @@ namespace Web.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		[HttpGet("Vacation/{id}/Approval")]
+		[HttpGet("Vacation/{id}")]
 		public IActionResult Approval(string id)
 		{
 			var vacation = this._vacationService.GetVacation(id);
@@ -156,25 +156,29 @@ namespace Web.Controllers
 			vacationDto.ApplicantUsername = vacation.Applicant.UserName;
 			vacationDto.ApplicantName = vacation.Applicant.FirstName;
 			vacationDto.ApplicantSurname = vacation.Applicant.LastName;
-			//vacatioDto.ApplicantTeam = vacation.Applicant.Team.Name;
+			vacationDto.ApplicantTeam = vacation.Applicant.Team.Name;
 
 			return View(vacationDto);
 		}
 
 		[HttpPost]
+		[Route("Vacation/Approve/{id}")]
 		public IActionResult Approve(VacationDTO vacationDto)
 		{
 			var vacation = this._mapper.Map<Vacation>(vacationDto);
 			vacation.Status = Models.Enums.ApprovalStatus.Approved;
-			return View();
+
+			return Index();
 		}
 
 		[HttpPost]
+		[Route("Vacation/Disapprove/{id}")]
 		public IActionResult Disapprove(VacationDTO vacationDto)
 		{
 			var vacation = this._mapper.Map<Vacation>(vacationDto);
 			vacation.Status = Models.Enums.ApprovalStatus.Disapproved;
-			return View();
+
+			return Index();
 		}
     
 		[Route("Vacation/{id}/Download")]
