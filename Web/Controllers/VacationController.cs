@@ -161,6 +161,23 @@ namespace Web.Controllers
 			vacation.Status = Models.Enums.ApprovalStatus.Disapproved;
 			return View();
 		}
+
+		[HttpGet]
+		[Route("Vacation/Delete/{id}")]
+		public IActionResult Delete([FromRoute] string id)
+		{
+			//if (Logged.CEOAuth())
+			//{
+				Vacation vacation = this._vacationService.GetVacation(id);
+
+				this._vacationService.DeleteVacation(vacation);
+				return RedirectToAction("Index", "Vacation");
+			// }
+			// else
+			// {
+			// 	return Unauthorized();
+			// }
+		}
     
 		[Route("Vacation/{id}/Download")]
 		public FileResult DownloadFile(string id, string fileName)
