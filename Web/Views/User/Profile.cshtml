@@ -24,7 +24,10 @@
 							<div class="container p-1">
 								<div class="p-4 my-2 rounded shadow-sm bg-light">
 									<p class="normal-text mb-0">Потребителско име: @Model.UserName</p>
-									<p class="normal-text mb-0">Екип: @Model.Team.Name</p>
+									@if (Model.Team is not null)
+									{
+										<p class="normal-text mb-0">Екип: @Model.Team.Name</p>
+									}
 									<p class="normal-text mb-0">Роля: @Model.Role.Name</p>
 								</div>
 							</div>
