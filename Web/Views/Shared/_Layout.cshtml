@@ -21,22 +21,25 @@
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Потребители</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="Index">Екипи</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Проекти</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Vacation" asp-action="Index">Отпуски</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Роли</a>
-						</li>
-						<li class="nav-item" style="padding-left: 300px;">
+						@if (Repositories.Helpers.Logged.User is not null)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Потребители</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="Index">Екипи</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Проекти</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Vacation" asp-action="Index">Отпуски</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Роли</a>
+							</li>
+						}
+						<li class="nav-item float-right">
 							@if (Repositories.Helpers.Logged.User is null)
 							{
 								<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Вход</a>
