@@ -9,9 +9,6 @@ using System.Linq;
 
 using ViewModels.Input;
 using Web.Services.Interfaces;
-using System.Linq;
-using System.Collections.Generic;
-using Models.SearchModel;
 
 namespace Web.Controllers
 {
@@ -39,9 +36,6 @@ namespace Web.Controllers
 
 
 			search.Results = this.teamService.GetTeams();
-			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUserById(x.TeamLeaderId));
-
-
 
 			return View(search);
 		}
@@ -98,7 +92,7 @@ namespace Web.Controllers
 			{
 				Team team = this.mapper.Map<Team>(model);
 				List<User> teamMembers = new List<User>();
-				User teamLeader = userService.GetUsers().FirstOrDefault(x => x.UserName == model.TeamLeaderUsername);
+				User teamLeader = userService.GetUser(model.TeamLeaderUsername);
 				//List<string> usernames = model.DevelopersUsernames.Split(' ').ToList();
 				/*foreach (string username in usernames)
 				{
