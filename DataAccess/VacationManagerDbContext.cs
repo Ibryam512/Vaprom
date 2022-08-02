@@ -19,9 +19,9 @@ namespace DataAccess
                 .HasOne(u => u.Role);
 
             modelBuilder.Entity<User>()
-               .HasOne(u => u.Team)
-               .WithMany(t => t.Developers)
-               .HasForeignKey(u => u.TeamId);
+                .HasOne(u => u.Team)
+                .WithMany(t => t.Developers)
+                .HasForeignKey(u => u.TeamId);
 
             modelBuilder.Entity<Team>()
                 .HasOne(t => t.Project)
@@ -32,26 +32,26 @@ namespace DataAccess
                 .HasOne(v => v.Applicant);
 
             modelBuilder.Entity<Role>().HasData(
-               new Role()
-               {
-                   Id = "1",
-                   Name = "CEO"
-               },
-               new Role()
-               {
-                   Id = "2",
-                   Name = "Developer"
-               },
-               new Role()
-               {
-                   Id = "3",
-                   Name = "Team Lead"
-               },
-               new Role()
-               {
-                   Id = "4",
-                   Name = "Unassigned"
-               });
+                new Role()
+                {
+                    Id = "1",
+                    Name = "CEO"
+                },
+                new Role()
+                {
+                    Id = "2",
+                    Name = "Developer"
+                },
+                new Role()
+                {
+                    Id = "3",
+                    Name = "Team Lead"
+                },
+                new Role()
+                {
+                    Id = "4",
+                    Name = "Unassigned"
+                });
         }
     }
 }

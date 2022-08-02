@@ -60,8 +60,19 @@ namespace UnitTests.Repositories
         [Test]
         public void GetUserTest()
         {
+            string userName = _Context.Users.First().UserName;
+            var result = _UserRepository.GetUser(userName);
+
+            Assert.IsInstanceOf<User>(result);
+            Assert.IsNotNull(result);
+            Assert.That(result, Is.TypeOf<User>());
+        }
+
+        [Test]
+        public void GetUserByIdTest()
+        {
             string userId = _Context.Users.First().Id;
-            var result = _UserRepository.GetUser(userId);
+            var result = _UserRepository.GetUserById(userId);
 
             Assert.IsInstanceOf<User>(result);
             Assert.IsNotNull(result);

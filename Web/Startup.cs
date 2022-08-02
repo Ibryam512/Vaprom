@@ -1,3 +1,4 @@
+using AutoMapper;
 using DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MySql.EntityFrameworkCore;
 using Repositories;
 using Repositories.Interfaces;
+using Repositories.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.Services;
 using Web.Services.Interfaces;
-using Repositories.Mapper;
-using AutoMapper;
 
 namespace VacationManager.Web
 {
@@ -53,8 +54,8 @@ namespace VacationManager.Web
             services.AddScoped<IVacationDocumentService, VacationDocumentService>();
 
             services.AddDbContext<VacationManagerDbContext>(options =>
-               options.UseSqlServer(
-                   Configuration.GetConnectionString("IbryamConnection")));
+                options.UseMySQL(
+                    Configuration.GetConnectionString("HostedConnection")));
             MapperConfiguration mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile())); 
             services.AddSingleton(mapperConfig.CreateMapper());
         }
