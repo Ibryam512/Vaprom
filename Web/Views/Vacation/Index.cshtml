@@ -1,9 +1,13 @@
-@using Repositories.Helpers;
+﻿@using Repositories.Helpers;
 @inject Repositories.Interfaces.IRoleRepository repository
 @inject Repositories.Interfaces.IUserRepository user_repo
 @inject Repositories.Interfaces.ITeamRepository team_repo
 
 @model Models.SearchModel.VacationSearch
+
+@{
+	ViewData["Title"] = "Отпуски";
+}
 
 <body class="bg-orange">
 	<div class="row py-5 px-4">

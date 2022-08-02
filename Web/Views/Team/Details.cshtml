@@ -1,13 +1,17 @@
 ﻿@model ViewModels.Input.TeamViewModel
 @inject Repositories.Interfaces.ITeamRepository TeamRepo
 
+@{
+	ViewData["Title"] = "Детайли за екип";
+}
+
 <body class="bg-orange">
 	<div class="container pb-5">
 		<div class="row justify-content-center lower">
 			<div class="col-md-6 register-form-bg rounded">
 				<form>
 					<div class="form-group text-center">
-						<h2 class="dark-heading b">Детайли за проект</h2>
+						<h2 class="dark-heading b">Детайли за екип</h2>
 						<br />
 					</div>
 					<div class="form-group">

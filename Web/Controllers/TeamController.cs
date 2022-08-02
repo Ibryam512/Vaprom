@@ -9,9 +9,6 @@ using System.Linq;
 
 using ViewModels.Input;
 using Web.Services.Interfaces;
-using System.Linq;
-using System.Collections.Generic;
-using Models.SearchModel;
 
 namespace Web.Controllers
 {
@@ -39,9 +36,6 @@ namespace Web.Controllers
 
 
 			search.Results = this.teamService.GetTeams();
-			search.Results.ForEach(x => x.TeamLeader = this.userService.GetUserById(x.TeamLeaderId));
-
-
 
 			return View(search);
 		}
@@ -81,13 +75,18 @@ namespace Web.Controllers
 		public IActionResult Edit(string id)
         {
 			AddDeveloperViewModel model = new AddDeveloperViewModel();
-			model.TeamId = id;
 			return View(model);
         }
-		[HttpPost]
-		public IActionResult Edit(AddDeveloperViewModel model)
+		[HttpPost("Team/Edit/{teamId}")]
+		public IActionResult Edit(AddDeveloperViewModel model, string teamId)
         {
-			teamService.GetTeam(model.TeamId).Developers.Add(userService.GetUsers().FirstOrDefault(x => x.UserName == model.DeveloperUsername));
+			var team = teamService.GetTeam(teamId);
+			if (team.Developers == null)
+			{
+				team.Developers = new List<User>();
+			}
+			var developer = userService.GetUser(model.DeveloperUsername);
+			teamService.AddUserToTeam(developer, team);
 			return RedirectToAction("Index", "Team");
         }
 		[HttpPost]
@@ -98,14 +97,13 @@ namespace Web.Controllers
 			{
 				Team team = this.mapper.Map<Team>(model);
 				List<User> teamMembers = new List<User>();
-				User teamLeader = userService.GetUsers().FirstOrDefault(x => x.UserName == model.TeamLeaderUsername);
+				User teamLeader = userService.GetUser(model.TeamLeaderUsername);
 				//List<string> usernames = model.DevelopersUsernames.Split(' ').ToList();
 				/*foreach (string username in usernames)
 				{
 					teamMembers.Add(userService.GetUser(username));
 				}*/
 				team.TeamLeader = teamLeader;
-				team.Developers = teamMembers;
 				team.Project = projectService.GetProjects().FirstOrDefault(x => x.Name == model.ProjectName);
 				teamService.AddTeam(team);
 
